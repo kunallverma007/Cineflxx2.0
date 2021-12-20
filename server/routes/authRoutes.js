@@ -13,8 +13,14 @@ router.post('/show',dataController.show_movie)
 router.post('/fetch_theater',dataController.movie_shower)
 router.post('/booking_add',dataController.booking_adder)
 
+router.post('/pending',dataController.pending_history)
+router.post('/complete',dataController.complete_history)
+
 router.post('/is_correct_user',authController.is_correct_user)
 router.post('/is_correct_theater',authController.is_correct_theater)
+router.post('/Osignup_user',authController.google_user_login)
+router.post('/Osignup_theater',authController.google_theatre_login)
+
 // router.post('/test',()=>{console.log("ajao bhai")})
 //router.get('/favicon.ico', (req, res) => res.status(204));
 module.exports=router;

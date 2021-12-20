@@ -13,6 +13,7 @@ const Booking = new mongoose.Schema({
         type:String,
         required:true
     },
+    
     slot:{
   
       type:Number,

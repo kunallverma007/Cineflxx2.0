@@ -172,3 +172,52 @@ module.exports.verify=async(req,res)=>{
     return res.redirect("http://localhost:3000/login")
   }
 }
+
+module.exports.google_user_login = async (req,res)=>
+{
+    const {username,email,googleId} = req.body;
+    queryObject = await User.find({email:email});
+    if (queryObject.length != 0)
+    {
+        const token=createToken(queryObject[0]._id);
+        res.status(201).send(token);
+    }
+    else
+    {
+        try{
+          var password=googleId;
+            const user=await User.create({email,password,username});
+            const token=createToken(user._id);
+            res.status(201).send(token);
+        }catch(err){
+            const errors=handleErrors(err);
+            res.status(400).json({errors});
+        }
+    }
+  }
+ 
+  module.exports.google_theatre_login = async (req,res)=>
+  {
+      const {username,email,password,city} = req.body;
+      queryObject = await Theater.find({email:email});
+      if (queryObject.length != 0)
+      {
+          const token=createToken(queryObject[0]._id);
+          res.status(201).send(token);
+      }
+      else
+      {
+          try{
+              console.log(city)
+              const theatre=await Theater.create({email,password,username,city});
+              theatre.verified = true;
+              const token=createToken(theatre._id);
+              res.status(201).send(token);
+          }catch(err){
+              const errors=handleErrors(err);
+              res.status(400).json({errors});
+          }
+      }
+  }
+  
+  

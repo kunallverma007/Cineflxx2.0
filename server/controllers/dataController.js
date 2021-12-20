@@ -142,3 +142,26 @@ module.exports.theater_data=async(req,res)=>{
         res.status(401).send(err);
     }
 } 
+
+//get booking details user
+module.exports.get_booking_data = async(req,res)=>{
+    const {user_id} = req.body;
+    try{
+        var booking= await Booking.find({});
+        
+        var user = await User.find({_id:user_id});
+        user=user.username;
+        var details=[];
+        booking.forEach(en=>{
+            if (en.user===user){
+                details.push(en);
+            }
+        })
+        res.status(200).send(details);
+    }
+    catch(err){
+        res.status(400).send(err);
+    }
+
+}
+

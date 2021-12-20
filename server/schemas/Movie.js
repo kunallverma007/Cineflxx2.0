@@ -9,6 +9,11 @@ const movie = new mongoose.Schema({
     prices:
     {
         type:[Number]
+    },
+    language:
+    {
+        type:String
     }
+
 });
 module.exports=movie;
