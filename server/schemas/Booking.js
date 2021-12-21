@@ -13,7 +13,10 @@ const Booking = new mongoose.Schema({
         type:String,
         required:true
     },
-    
+    language:{
+      type:String,
+      required:true
+    },
     slot:{
   
       type:Number,
@@ -25,7 +28,7 @@ const Booking = new mongoose.Schema({
       default:false
     },
     pack:{ 
-      type:Boolean,
+      type:Number,
       required:true
     },
     Date:{

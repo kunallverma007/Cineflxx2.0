@@ -5,15 +5,15 @@ const Booking = require("../schemas/Booking")
 module.exports.show_movie = async(req,res)=>{   
 
     console.log(req.body);
-    const { _id,movie_id,slot,prices } = req.body;
+    const { _id,movie_id,slot,prices,language } = req.body;
     try{
         let movie ={
             movie_id: movie_id,
             slots:slot,
-            prices:prices
+            prices:prices,
+            language:language
         }
         
-        console.log(movie);
         await Theater.updateOne({_id:_id},{$push:{movies:[movie]}});
         res.status(200).send(req.body);
     }catch(err){
@@ -32,8 +32,9 @@ module.exports.movie_shower = async(req,res)=>{
         {
             en.movies.forEach(en2=>{
                 if (en2.movie_id===movie_id)
-                {
-                    details.push(en2);
+                {   
+                    var obj = {movie:en2,theater:en}
+                    details.push(obj);
                 }
             })
         
@@ -45,7 +46,24 @@ module.exports.movie_shower = async(req,res)=>{
 
 //delete movie from theater
 module.exports.movie_deleter = async(req,res)=>{
-    
+    const {_id,movie_id,language} = req.body;
+    try{
+        const theater = await Theater.find({_id:_id});
+        const movies = theater[0].movies;
+        let i = 0;
+        while (i < movies.length)
+        {
+            if (movies[i].movie_id === movie_id && movies[i].language === language)
+                movies.splice(i,1);
+            else
+                i ++;
+        }
+        await Theater.updateOne({_id:_id},{$set:{movies:movies}});
+        res.status(200).send("ok");
+    }catch(err){
+        console.log(err);
+        res.status(400);
+    }
 }
 
 //User details
@@ -61,10 +79,13 @@ module.exports.user_data = async(req,res)=>{
 
 //adds booking to user
 module.exports.booking_adder= async(req,res)=>{
-    const {user,movie_id,theater,slot,pack} = req.body;
+    
+    
+    const {user,movie_id,theater,slot,pack,language} = req.body;
+    console.log(user,movie_id,theater,slot,pack,language)
     try
     {
-        const booking=await Booking.create({user,movie_id,theater,slot,pack});
+        const booking=await Booking.create({user,movie_id,theater,slot,pack,language});
 
         await User.updateOne({ _id:user},{$push:{booking:[booking._id]}});
         await Theater.updateOne({username:theater},{$push:{booking:[booking._id]}});

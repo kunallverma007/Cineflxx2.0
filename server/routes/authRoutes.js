@@ -15,7 +15,7 @@ router.post('/booking_add',dataController.booking_adder)
 
 router.post('/pending',dataController.pending_history)
 router.post('/complete',dataController.complete_history)
-
+router.post('/delete_movie',dataController.movie_deleter);
 router.post('/is_correct_user',authController.is_correct_user)
 router.post('/is_correct_theater',authController.is_correct_theater)
 router.post('/Osignup_user',authController.google_user_login)
