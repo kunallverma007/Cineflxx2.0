@@ -1,32 +1,61 @@
-import React,{useState} from 'react';
-import axios from 'axios';
-import './Signin_theater.css'
-function Signin_theater() {
-    const [password, setPassword] =useState("");
-    const [email, setEmail] =useState("");
-    async function submit(){
-        try{
-            var token=await axios.post('/signin_theater',{email,password});
-            localStorage.setItem("token",token.data);
-            localStorage.setItem("type","theater")
-
-        }catch(err){
-            alert(err.response.data)    
-        }
-    }
-    return (
-        <div className="signin">
-            <span className='signinTitle'>Login</span>
-            <div className='signinForm'>
-                <label>Email</label>
-                <input className="signinInput" type="email" placeholder="Enter your email" value={email} onChange={({target})=>{ setEmail(target.value)}} required />
-                <label>Password</label>
-                <input className="signinInput" type="password" placeholder="Enter your password" value={password} onChange={({target})=>{ setPassword(target.value)}}/>
-                <button className="signinButton" type="submit" onClick={submit}>Sign In</button>
-            </div>
-            {/* <button className="signupButton">Sign Up</button> */}
-        </div>
-    )
-}
-
-export default Signin_theater
+.signint {
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+      ),
+      url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+    background-size: cover;
+  }
+  
+  .signintTitle {
+    font-size: 50px;
+  }
+  
+  .signintForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .signintForm > label {
+    margin: 10px 0;
+  }
+  
+  .signintInput {
+    padding: 10px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .signintInput:focus {
+    outline: none;
+  }
+  
+  .signintButton {
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: lightcoral;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+  }
+/*   
+  .signintButton {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: teal;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 10px;
+  } */
