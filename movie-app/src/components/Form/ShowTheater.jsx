@@ -3,6 +3,7 @@ import Select from 'react-select';
 import axios from 'axios';
 import {IsAuth} from './../Auth/Auth'
 import { useHistory } from 'react-router-dom';
+import "./ShowTheater.css"
 
 import { useParams } from 'react-router-dom';
 function ShowTheater() {
@@ -41,17 +42,29 @@ function ShowTheater() {
         
     }
     return (
-        <div>
+        <div className="showTheater">
+            <span className="showTheaterTitle">Theater Details</span>
+            <div className="showTheaterForm">
             <label>Silver : </label>
-            <input name="silver" value={silver} onChange={({target})=>{ setSilver(target.value)}} required/>
+            <input className="showTheaterclass" type="number" value={silver} onChange={({target})=>{ setSilver(target.value)}} required/>
             <label>Gold : </label>
-            <input name="gold" value={gold} onChange={({target})=>{ setGold(target.value)}} required/>
+            <input className="showTheaterclass" type="number" value={gold} onChange={({target})=>{ setGold(target.value)}} required/>
             <label>Platinum : </label>
-            <input name="platinum" value={platinum} onChange={({target})=>{ setPlatinum(target.value)}} required/>
+            <input className="showTheaterclass" type="number" value={platinum} onChange={({target})=>{ setPlatinum(target.value)}} required/>
+            </div>
+            <div className="showTheaternewForm">
             <label>Language : </label>
-            <input name= "language" value = {language} onChange={({target})=>{ setLanguage(target.value)}} required/>
-            <Select options= {options} onChange={(value)=>{setTimings(value);}} isMulti/>
-            <button type="submit" onClick={submit}>Submit</button>
+            <select className="showTheaternewclass" className="showTheaterlanguage" name= "language" value = {language} onChange={({target})=>{ setLanguage(target.value)}}>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Telugu">Telugu</option>
+            </select>
+            <label>Timings:</label>
+            <Select className="showTheaternewclass" options= {options} onChange={(value)=>{setTimings(value);}} isMulti/>
+            </div>
+            <button className="showTheaterbutton" type="submit" onClick={submit}>Submit</button>
+            
         </div>
     )
 }
