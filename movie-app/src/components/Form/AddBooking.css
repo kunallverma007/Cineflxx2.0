@@ -1,0 +1,59 @@
+.addBooking {
+    height: calc(100vh - 50px);
+    display: flex;
+    font-size: 18px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        rgba(38, 197, 51, 0.5),
+        rgba(185, 93, 93, 0.5)
+      ),
+      url("https://images.pexels.com/photos/317355/pexels-photo-317355.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+    background-size: cover;
+  }
+
+.addBookingTitle{
+    font-size: 50px;
+}
+
+.addBookingForm {
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    font-weight: bold;
+    flex-direction: column;
+}
+
+.addBookingForm > label {
+    margin: 10px 0;
+}
+
+.addBookingClass {
+    margin-bottom: 15px;
+    margin-left: 5px;
+    margin-right: 20px;
+    font-weight: normal;
+    background-color: rgb(247, 245, 245);
+    border: none;
+    border-radius: 10px;
+  }
+
+  .addBookingClass:focus {
+    outline: none;
+  }
+
+  .addBookingbutton {
+    margin-top: 25px;
+    cursor: pointer;
+    background-color: rgb(179, 67, 32);
+    color: white;
+    font-size: 15px;
+    padding-left:12px;
+    padding-right: 12px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+  }
