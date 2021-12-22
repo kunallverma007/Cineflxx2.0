@@ -2,6 +2,9 @@ import React,{useState,useEffect} from 'react'
 import {useHistory} from 'react-router-dom';
 import axios from 'axios'
 import {IsAuth} from '../Auth/Auth'
+
+import './search.css'
+import '../Movies/new.css'
 function Card(props) {
     const [movie_data,setMovie_data]=useState({});
     const [auth,setAuth] = useState(false);
@@ -9,8 +12,8 @@ function Card(props) {
     const [type,setType]=useState('');
     let history = useHistory();
     const authorization= async ()=>{
-        const x=await IsAuth();
-        setAuth(x.auth);setUser(x.user);setType(x.type);
+        const {auth,type,user}=await IsAuth();
+        
     }
     const get=async ()=>{
         
@@ -18,6 +21,7 @@ function Card(props) {
     
         var x=await axios.get(url);
         setMovie_data(x.data)
+        console.log(movie_data)
     }
     const addBooking=()=>{
 
@@ -29,21 +33,35 @@ function Card(props) {
         var url="/conc"+"/"+props.movie_id.toString();
         history.push(url);
     }
+    function set(s){
+        if (s===undefined) return ""
+        if (s.length>100){
+            s=s.slice(0,100)
+            s.concat("....")
+        }
+        return s
+    }
     useEffect(()=>{
         authorization();
-        get();
+        get()
     },[])
     return (
         <div>
-            <h1>{movie_data.title}</h1>
-            {
+             <div className="listItem parent">
+                <img className="child" src={`https://www.themoviedb.org/t/p/original${movie_data.poster_path}`} alt="moviePoster"/>
+                <div className="child">
+                    <h3>{movie_data.original_title}</h3>
+                    <p>{movie_data.release_date}</p>
+                    <p>{set(movie_data.overview)}</p>
+                    <div className="text-box">
+                    {
                  
-            (type==="user")?<button type="submit" onClick={addBooking}>Watch Now</button>:<button type="submit" onClick={showTheater}>Show Now</button>
-
+                        (type==="user")?<button type="submit"  onClick={addBooking}>Watch Now</button>:<button type="submit"  onClick={showTheater}>Show Now</button>
+                    }
+                    </div>
+                </div>
+            </div>
             
-
-            //<button type="submit" onClick={showTheater}>Show Now</button>
-            }
         </div>
     )
 }

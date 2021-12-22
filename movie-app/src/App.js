@@ -16,7 +16,8 @@ import Profile_theater from './components/Profile/Profile_theater';
 import Profile_user from './components/Profile/Profile_user';
 import BookingTheater from './components/Booking/BookingTheater'
 import BookingUser from './components/Booking/BookingUser'
-// import Movieprofile from './components/Movies/Movieprofile'
+import Movieprofile from './components/Movies/Movieprofile'
+import Home from './components/Home/Home.jsx'
 function App() {
   return (
     <Router>
@@ -31,7 +32,7 @@ function App() {
         <Route exact path="/AddBooking/:theater_id/:movie_id/:language" component={AddBooking}/>
         <Route exact path="/show_movie/:movie_id" component={ShowTheater}/>
         <Route exact path="/card" component={Card}/>
-        {/* < Route exact path="/test" component={Movieprofile}/> */}
+        <Route exact path="/test" component={Home}/>
         <Route exact path="/theater" component={Profile_theater}/>
         <Route exact path="/user" component={Profile_user}/>
 

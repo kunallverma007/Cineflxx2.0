@@ -4,7 +4,7 @@ import Card from './Card.jsx'
 function Search() {
     const [movie,setMovie]=useState("");
     const [movies,setMovies]=useState([]);
-
+    // const {movie_id}=useParams();
     async function submit()
     {
         try{
@@ -26,11 +26,12 @@ function Search() {
     else{
     return (
         <div>
-            <div>
-                <input type="text" value={movie} onChange={({target})=>{setMovie(target.value)}}></input>
+            <div className="movieBar">
+                <h2>Search Movies</h2>
+                <input id = "movie" type="search" className="form-input"  aria-label="Search" aria-describedby="search-addon" onChange={({target})=>{ setMovie(target.value)}} />
+                <button onClick={ submit }>Submit</button>
             </div>
-            <button type="submit" onClick={submit}>Search</button>
-            <div>
+            <div className="movie-list">
                 {
                     movies.map((en,index) => {
                         return <Card 
