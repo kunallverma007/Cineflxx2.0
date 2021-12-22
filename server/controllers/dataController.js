@@ -112,44 +112,62 @@ module.exports.confirm_payment=async(req,res)=>{
 
 //get theaters history pending
 module.exports.pending_history=async(req,res)=>{
-    const {theater_id} = req.body;
+    const { _id } = req.body;
+    // console.log(_id)
+    
+
     try{
-        var booking= await Booking.find({});
+        var theater = await Theater.findOne({_id:_id});
         
-        var theater = await Theater.find({_id:theater_id});
-        theater=theater.username;
+        var booking= await Booking.find({});
+        theater=theater.username
+        
         var details=[];
         booking.forEach(en=>{
+            // console.log(en.theater===theater)
             if (en.theater===theater && en.payment===false){
+                
                 details.push(en);
             }
+            // console.log(details)
         })
-        res.status(200).send(details);
+        console.log(details)
+        res.status(200).json(details);
     }
     catch(err){
+        console.log(err)
         res.status(400).send(err);
     }
 }
 
 //get theaters history complete
 module.exports.complete_history=async(req,res)=>{
-    const {theater_id} = req.body;
+    const { _id } = req.body;
+    // console.log(_id)
+    
+
     try{
-        var booking= await Booking.find({});
+        var theater = await Theater.findOne({_id:_id});
         
-        var theater = await Theater.find({_id:theater_id});
-        theater=theater.username;
+        var booking= await Booking.find({});
+        theater=theater.username
+        
         var details=[];
         booking.forEach(en=>{
+            // console.log(en.theater===theater)
             if (en.theater===theater && en.payment===true){
+                
                 details.push(en);
             }
+            // console.log(details)
         })
-        res.status(200).send(details);
+        console.log(details)
+        res.status(200).json(details);
     }
     catch(err){
+        console.log(err)
         res.status(400).send(err);
-    }
+}
 }
 
 
@@ -167,18 +185,20 @@ module.exports.theater_data=async(req,res)=>{
 //get booking details user
 module.exports.get_booking_data = async(req,res)=>{
     const {user_id} = req.body;
+    console.log(user_id)
     try{
         var booking= await Booking.find({});
         
-        var user = await User.find({_id:user_id});
-        user=user.username;
+        
         var details=[];
         booking.forEach(en=>{
-            if (en.user===user){
+            console.log(en.user)
+            if (en.user===user_id){
                 details.push(en);
             }
         })
         res.status(200).send(details);
+        console.log(details)
     }
     catch(err){
         res.status(400).send(err);

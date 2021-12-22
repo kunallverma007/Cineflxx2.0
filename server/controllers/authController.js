@@ -126,12 +126,14 @@ module.exports.is_correct_user=async (req,res)=>
 module.exports.is_correct_theater=async (req,res)=>
 {
     const {token} = req.body;
-    console.log(token);
+    // console.log(token);
     try{
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       console.log(decoded.id)
       return res.status(200).send(decoded.id);
     }catch(err){
+
+      console.log(err)
       return res.status(401).send("Invalid Token");
 
     }   
