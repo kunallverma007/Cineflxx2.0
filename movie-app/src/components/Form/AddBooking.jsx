@@ -4,6 +4,8 @@ import axios from 'axios';
 import {useParams} from 'react-router-dom'
 import {IsAuth} from '../Auth/Auth'
 import {useHistory} from 'react-router-dom';
+import "./AddBooking.css"
+
 function AddBooking() {
     const {theater_id,movie_id,language} = useParams();
     console.log(theater_id,movie_id,language)
@@ -74,10 +76,15 @@ function AddBooking() {
     },[slot,price]);
     
     return (
-        <div>
-            <Select options={options}  onChange={(value)=>{setSlot(value);}}/>
-            <Select options={prices}  onChange={(value)=>{setPrice(value);}} />
-            <button type="submit" onClick={submit}>Submit</button>
+        <div className="addBooking">
+            <span className="addBookingTitle">Ticket Booking Details</span>
+            <div className="addBookingForm">
+            <label>Choose Time Slot: </label>
+            <Select className="addBookingClass" options={options}  onChange={(value)=>{setSlot(value);}}/>
+            <label>Choose Ticket Price: </label>
+            <Select className="addBookingClass" options={prices}  onChange={(value)=>{setPrice(value);}} />
+            <button className="addBookingbutton" type="submit" onClick={submit}>Submit</button>
+            </div>
         </div>
     )
 }
