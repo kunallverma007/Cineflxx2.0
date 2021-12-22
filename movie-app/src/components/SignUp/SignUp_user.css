@@ -1,4 +1,4 @@
-.signup {
+.signupu {
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
@@ -12,32 +12,32 @@
     background-size: cover;
   }
   
-  .signupTitle {
+  .signupuTitle {
     font-size: 50px;
   }
   
-  .signupForm {
+  .signupuForm {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
   }
   
-  .signupForm > label {
+  .signupuForm > label {
     margin: 10px 0;
   }
   
-  .signupInput {
+  .signupuInput {
     padding: 10px;
     background-color: white;
     border: none;
     border-radius: 10px;
   }
   
-  .signupInput:focus {
+  .signupuInput:focus {
     outline: none;
   }
   
-  .signupButton {
+  .signupuButton {
     margin-top: 20px;
     cursor: pointer;
     background-color: lightcoral;
@@ -48,7 +48,7 @@
     text-align: center;
   }
   
-  .signinButton {
+  /* .signinutButton {
     position: absolute;
     top: 60px;
     right: 20px;
@@ -58,4 +58,4 @@
     border: none;
     color: white;
     border-radius: 10px;
-  }
+  } */
