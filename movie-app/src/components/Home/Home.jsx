@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CustomNavbar from "../Navbar/CustomNavbar";
-// import Footer from './Footer';
+import Footer from '../Footer/Footer';
 import Mainbg from "./Mainbg";
 import Horizontaldiv from "./Horizontaldiv"
 import axios from "axios";
@@ -102,7 +102,7 @@ export default function Home() {
               </div>
             </div>            
             </div>
-            {/* <Footer/>  */}
+            <Footer/> 
                     
         </div>
     )

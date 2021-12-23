@@ -18,6 +18,8 @@ import Profile_user from './components/Profile/Profile_user';
 import BookingTheater from './components/Booking/BookingTheater'
 import BookingUser from './components/Booking/BookingUser'
 import Movieprofile from './components/Movies/Movieprofile'
+import SignIn from './components/SignIn/SignIn'
+import SignUp from './components/SignUp/SignUp'
 import Home from './components/Home/Home.jsx'
 function App() {
   return (
@@ -36,10 +38,12 @@ function App() {
         <Route exact path="/test" component={Footer}/>
         <Route exact path="/theaters" component={Profile_theater}/>
         <Route exact path="/user" component={Profile_user}/>
-
+        <Route exact path="/login" component={SignIn}/>
+        <Route exact path="/signup" component={SignUp}/>
         <Route exact path="/booking_theater" component={BookingTheater}/>
 
         <Route exact path="/booking_user" component={BookingUser}/>
+        <Route exact path="/Movieprofile/:_id" component = {Movieprofile}/>
 
         {/* <Route exact path="/booking_user" component={BookingTheater}/> */}
       </Switch>

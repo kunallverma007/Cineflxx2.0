@@ -3,14 +3,16 @@ import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import "./Signin_theater.css"
 
+import {useHistory} from "react-router-dom"
 function Signin_theater() {
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
-
+    let history=useHistory();
     async function google_submit(response){
         var email= response.profileObj.email;
         var password=response.profileObj.googleId;
         await axios.post('/Osignin_theater', {email,password});
+        history.push("/")
     }
 
     async function submit(){
@@ -18,6 +20,7 @@ function Signin_theater() {
             var token=await axios.post('/signin_theater',{email,password});
             localStorage.setItem("token",token.data);
             localStorage.setItem("type","theater")
+            history.push("/")
 
         }catch(err){
             alert(err.response.data)    

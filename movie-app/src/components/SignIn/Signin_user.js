@@ -3,20 +3,24 @@ import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import "./Signin_user.css"
 
+import {useHistory} from "react-router-dom"
 function Signin_user() {
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
+    let history=useHistory();
 
     async function google_submit(response){
         var email= response.profileObj.email;
         var password=response.profileObj.googleId;
         await axios.post('/Osignin_user', {email,password});
+        history.push("/")
     }
     async function submit(){
         try{
             var token=await axios.post('/signin_user',{password,email});
             localStorage.setItem("token",token.data);
             localStorage.setItem("type","user")
+            history.push("/")
 
         }catch(err){
             
@@ -27,10 +31,11 @@ function Signin_user() {
         <div className="signinu">
             <span className='signinuTitle'>Login For User</span>
             <div className='signinuForm'>
+            <label>Email</label>
+                <input className="signinuInput" type="email" placeholder="Enter your email" value={email} onChange={({target})=>{ setEmail(target.value)}} required />
                 <label>Password</label>
                 <input className="signinuInput" type="password" placeholder="Enter your password" value={password} onChange={({target})=>{ setPassword(target.value)}}/>
-                <label>Email</label>
-                <input className="signinuInput" type="email" placeholder="Enter your email" value={email} onChange={({target})=>{ setEmail(target.value)}} required />
+                
                <button className="signinuButton" type="submit" onClick={submit}>Sign In</button>
             </div>
             <br/>
@@ -43,7 +48,6 @@ function Signin_user() {
                 }}
                 onFailure={(err)=>{console.log(err)}}
             />
-            {/* <button className="signupuButton">Sign Up</button> */}
         </div>
     )
 }

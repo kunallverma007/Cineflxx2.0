@@ -3,13 +3,11 @@ import back from "../Assests/witcher.jpg";
 import { useHistory } from 'react-router-dom';
 export default function Mainbg()
 {
-    const [query, setQuery]= useState('');  
    
     let history = useHistory();
     function HandleSubmit()
     {
         history.push(`/search`);
-        console.log("hello")
     }
     return (
         <>
@@ -24,13 +22,11 @@ export default function Mainbg()
         placeholder="Search for..." 
         className="homeSearch"
         style={{width: "90%",borderRadius: "30px",height: "10%",margin:"3.5%",marginTop:"10%",padding:"20px",backgroundColor: "rgba(0, 0, 0, 0)",borderColor:"white"}}
-        onChange={
-            ({target})=>{setQuery(target.value)}}    
+        onChange={()=>{history.push('/search')}}    
         onKeyPress={event => {
                 if(event.key === 'Enter')
                 {  
-                  HandleSubmit();
-                 console.log(query);                                                      
+                  HandleSubmit();                                                     
                 }
             }} 
         /> 
