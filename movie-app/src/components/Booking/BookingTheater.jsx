@@ -12,18 +12,14 @@ function BookingTheater() {
 
     const authorization= async ()=>{ 
         const {auth,type,user}=await IsAuth();
-        // setAuth(x.auth);setUser(x.user);setType(x.type);
-        console.log(auth,type,user)
-        
+        console.log(12)
         if (auth===false || type==="user"){
-            //  history.push('/login_theater');
             console.log(auth,type,user)
         }
         else{
             try{
                 var y= await axios.post('/pending',{_id:user});
                 setPending(y.data);
-                // console.log(y)
                 
                 var z= await axios.post('/complete',{_id:user});
                 setComplete(z.data);
@@ -33,11 +29,14 @@ function BookingTheater() {
         }
         console.log(pending,complete);
     }
+  
 
-    useEffect(()=>{
+     useEffect(()=>{
         authorization();
     },[])
+
     return (
+
         <div>
             <h1>Pending :</h1>
             {

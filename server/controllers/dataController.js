@@ -109,7 +109,6 @@ module.exports.confirm_payment=async(req,res)=>{
     }
 }
 
-
 //get theaters history pending
 module.exports.pending_history=async(req,res)=>{
     const { _id } = req.body;
@@ -174,11 +173,14 @@ module.exports.complete_history=async(req,res)=>{
 //get theater details
 module.exports.theater_data=async(req,res)=>{
     const {_id}=req.body;
+    console.log("id",_id)
     try{            
-        var user = await Theater.findOne({ _id:_id });
+        var user = await Theater.findOne({_id:_id });
+        console.log(user)
         res.status(201).json(user);      
     }catch(err){
-        res.status(401).send(err);
+        console.log(err)
+        res.status(401).json(err);
     }
 } 
 

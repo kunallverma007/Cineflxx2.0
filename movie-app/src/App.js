@@ -33,7 +33,7 @@ function App() {
         <Route exact path="/show_movie/:movie_id" component={ShowTheater}/>
         <Route exact path="/card" component={Card}/>
         <Route exact path="/test" component={Home}/>
-        <Route exact path="/theater" component={Profile_theater}/>
+        <Route exact path="/theaters" component={Profile_theater}/>
         <Route exact path="/user" component={Profile_user}/>
 
         <Route exact path="/booking_theater" component={BookingTheater}/>

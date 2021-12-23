@@ -4,7 +4,7 @@ import {useHistory} from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 
 import './SignUp_user.css'
-function SignUp_theater() {
+function SignUp_user() {
     const [username, setUsername] =useState("");
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
@@ -60,4 +60,4 @@ function SignUp_theater() {
     )
 }
 
-export default SignUp_theater
+export default SignUp_user 

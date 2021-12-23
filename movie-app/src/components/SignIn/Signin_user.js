@@ -25,7 +25,7 @@ function Signin_user() {
                 <input className="signinInput" type="password" placeholder="Enter your password" value={password} onChange={({target})=>{ setPassword(target.value)}}/>
                 <button className="signinButton" type="submit" onClick={submit}>Sign In</button>
             </div>
-            <button className="signupButton">Sign Up</button>
+            {/* <button className="signupButton">Sign Up</button> */}
         </div>
     )
 }

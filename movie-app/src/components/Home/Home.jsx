@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-// import CustomNavbar from "./CustomNavbar";
+import CustomNavbar from "../Navbar/CustomNavbar";
 // import Footer from './Footer';
 import Mainbg from "./Mainbg";
 import Horizontaldiv from "./Horizontaldiv"
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import {IsAuth} from '../Auth/Auth'
+
 export default function Home() {
     let history = useHistory();
     const [movieData, setMovieData] = useState([]);
+    const [_id,set_id]=useState("")
+    const [name,setName]=useState("")
     const apiii = async () => {
         try {
        
@@ -20,12 +24,49 @@ export default function Home() {
           console.log(err.message);
         }
       };
+      async function auth(){
+        const {auth,type,user} = await IsAuth();
+        
+      //   console.log(auth,type,user)
+        if (auth!==false){
+          set_id(user)
+          if (type==="user"){
+            try{
+                var x=await axios.post('/user',{_id:user})
+                setName(x.data.username)
+                console.log(x,"this")
+            }catch(err){
+    
+              console.log("err1")
+              console.log(err)
+            }
+          }
+          else{
+            try{
+              var x=await axios.post('/theater',{_id:user})
+              console.log(x)
+              setName(x.data.username)      
+          }catch(err){
+              console.log("err2")
+    
+            console.log(err.response)
+          }
+          }
+        }
+       
+      }
+      
       useEffect(() => {
         apiii();
+        auth();
       }, []);
+    
     return (
         <div style={{width: "100%", height:"100% ",backgroundColor: "black"}}>
-            {/* <CustomNavbar/> */}
+            <CustomNavbar
+              _id = {_id}
+              name = {name}
+            />
             <Mainbg/> 
             <Horizontaldiv></Horizontaldiv>  
             <h2 style={{marginLeft:"5%",color:"white"}}>Trending</h2>
