@@ -4,7 +4,6 @@ import Card from './Card.jsx'
 function Search() {
     const [movie,setMovie]=useState("");
     const [movies,setMovies]=useState([]);
-    // const {movie_id}=useParams();
     async function submit()
     {
         try{
@@ -12,7 +11,6 @@ function Search() {
             var x=await axios.get(url);
             
             setMovies(x.data.results);
-           // console.log(x.data.results);
         }catch(err){
             console.log(err);
         }

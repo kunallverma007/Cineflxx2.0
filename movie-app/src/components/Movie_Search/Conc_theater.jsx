@@ -2,8 +2,6 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import {IsAuth} from '../Auth/Auth'
 import {useHistory} from 'react-router-dom';
-
-import Geocode from "react-geocode"
 import useGeoLocation from './useGeoLocation';
 import { useParams } from 'react-router-dom';
 function Conc_theater(props) {
@@ -39,9 +37,7 @@ function Conc_theater(props) {
                 
                 var response = await axios.get(`https://us1.locationiq.com/v1/reverse.php?key=pk.6f585145ffdbe963de697efe0fa2c02a&lat=${location.coordinates.lat}&lon=${location.coordinates.lng}&format=json`)
                 console.log(response.data.city)
-                // console.log(response.data.address.city)
                 setCity(response.data.address.city)
-                // console.log(city,"city")
                  
             }catch(err){
                 console.log(location.error,"error")

@@ -61,8 +61,10 @@ function AddBooking() {
    async function submit(){
        try{
            var {auth,type,user}=await IsAuth();
-            // console.log(user,movie_id,theater,slot.value,price.value,language);
            await axios.post('/booking_add',{user,movie_id,theater,slot:slot.value,pack:price.value,language})
+           alert("Booking is added successfully redirecting in 6 secs")
+            await new Promise(r => setTimeout(r, 4000));
+            history.push("/")
        }catch(err){
 
             console.log(err)

@@ -37,13 +37,19 @@ function ShowTheater() {
 
      
         const data={_id:user,movie_id:movie_id,slot:time,prices:[silver,gold,platinum],language:language};
-        
-        await axios.post('/show',data)
+        try{
+            await axios.post('/show',data)
+            alert("Movie is added successfully redirecting in 6 secs")
+            await new Promise(r => setTimeout(r, 4000));
+            history.push('/')
+        }catch(err){
+            console.log(err)
+        }
         
     }
     return (
         <div className="showTheater">
-            <span className="showTheaterTitle">Theater Details</span>
+            <span className="showTheaterTitle">Multiplex Details</span>
             <div className="showTheaterForm">
             <label>Silver : </label>
             <input className="showTheaterclass" type="number" value={silver} onChange={({target})=>{ setSilver(target.value)}} required/>

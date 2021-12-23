@@ -7,14 +7,8 @@ import './search.css'
 import '../Movies/new.css'
 function Card(props) {
     const [movie_data,setMovie_data]=useState({});
-    const [auth,setAuth] = useState(false);
-    const [user,setUser]=useState({});
-    const [type,setType]=useState('');
-    let history = useHistory();
-    const authorization= async ()=>{
-        const {auth,type,user}=await IsAuth();
-        
-    }
+    let history=useHistory();
+    var type=localStorage.getItem("type")
     const get=async ()=>{
         
         var url=`https://api.themoviedb.org/3/movie/${props.movie_id}?api_key=6f63772ed65e8e432bd7e974f7a69540&language=en-US`
@@ -23,13 +17,13 @@ function Card(props) {
         setMovie_data(x.data)
         console.log(movie_data)
     }
-    const addBooking=()=>{
+    const showTheater=()=>{
 
-        var url="/add_booking"+"/"+props.movie_id.toString();
+        var url="/show_movie"+"/"+props.movie_id.toString();
         history.push(url);
         
     }
-    const showTheater=()=>{
+    const addBooking=()=>{
         var url="/conc"+"/"+props.movie_id.toString();
         history.push(url);
     }
@@ -37,12 +31,11 @@ function Card(props) {
         if (s===undefined) return ""
         if (s.length>100){
             s=s.slice(0,100)
-            s.concat("....")
+            s=s.concat("....")
         }
         return s
     }
     useEffect(()=>{
-        authorization();
         get()
     },[])
     return (
