@@ -2,8 +2,10 @@ import React, { useState, useEffect}  from 'react'
 import right from "../Assests/file9.jpg"
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+
 function Horizontaldiv() {
-  const [query, setQuery]= useState("");     
+  const [query, setQuery]= useState("");   
+  
     const url=`https://api.themoviedb.org/3/movie/upcoming?api_key=7372ae765660f35a9b2e71883bb705a5&language=en-US&page=1`;
     const [overview,setOverview] = useState([]);     
     const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +15,7 @@ function Horizontaldiv() {
     const showModal = async (x) => {
       console.log(x);
       try{
-        const response = await axios.get(`http://api.themoviedb.org/3/movie/${x}/videos?api_key=7372ae765660f35a9b2e71883bb705a5`)
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${x}/videos?api_key=7372ae765660f35a9b2e71883bb705a5&language=en-US`)
         setQuery(response.data.results[0].key);  
         console.log(query)
         setIsOpen(true);          
@@ -34,6 +36,23 @@ function Horizontaldiv() {
             console.log(err);
         }
     }
+    const trailerPlayer=async (x)=>{
+      console.log(x);
+      try{
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${x}/videos?api_key=7372ae765660f35a9b2e71883bb705a5&language=en-US`)
+        setQuery(response.data.results[0].key);  
+        console.log(query)
+        
+        var url=`https://www.youtube.com/embed/${query}`
+        console.log(url)
+        window.open(url, '_blank');        
+      }
+      catch(err){
+        console.log(err);
+      }      
+      
+      
+    }
     
     useEffect(() => {
          apiii();
@@ -47,7 +66,7 @@ function Horizontaldiv() {
           {
             overview.map((x,index)=>{return <div key = {index} className="horizontalcomponent" style={{zIndex:"9",marginTop:"6%"}} >
               <input type="Image"  src={`https://www.themoviedb.org/t/p/original${x.backdrop_path}`} style={{width: "355px",height: "200px",borderRadius:"25px"}}
-                 onClick = {()=>showModal(x.id)}
+                 onClick = {()=>trailerPlayer(x.id)}
                 
                  className="imagebutton"
                 >             
@@ -58,9 +77,9 @@ function Horizontaldiv() {
           } 
           </div>
           </div>
-        <Modal show={isOpen} onHide={hideModal} size="xl">         
+        {/* <Modal show={isOpen} onHide={hideModal} size="xl">         
             <iframe width="700px" height="700px" src={`https://www.youtube.com/embed/${query}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-        </Modal>
+        </Modal> */}
         </>
     )
 }

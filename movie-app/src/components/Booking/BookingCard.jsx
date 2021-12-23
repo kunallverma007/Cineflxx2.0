@@ -21,6 +21,14 @@ function BookingCard(props) {
             console.log(err)
         }
     }
+    async function dele(){
+
+        try{
+            
+        }catch(err){
+            console.log(err)
+        }
+    }
     useEffect(() => {
         get_movie();
     }, [])
@@ -38,6 +46,7 @@ function BookingCard(props) {
             {
                 props.type==="1"?<button className='deleteBtn' onClick={verify}>Verify Payment</button>:<div></div>
             }
+            <button className='deleteBtn' onClick={dele}>Delete Booking</button>
         </div>
     )
 }

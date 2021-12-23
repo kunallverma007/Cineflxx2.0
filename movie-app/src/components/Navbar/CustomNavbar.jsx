@@ -12,6 +12,8 @@ export default function CustomNavbar(props) {
   function signout(){
       localStorage.removeItem("type");
       localStorage.removeItem("token");
+
+      window.location.reload()
   }
  
   const [_id,set_id]=useState("")
@@ -45,7 +47,7 @@ export default function CustomNavbar(props) {
         <>
           <Nav.Link 
               style={{ color: "black", fontWeight: "bold",fontSize:"1.8rm" }}                
-              onClick={()=>history.push(`/user`)}      
+              onClick={()=>localStorage.getItem("type")==="user"?history.push(`/user`):history.push(`/theaters`)}      
           >
             {name}
           </Nav.Link>

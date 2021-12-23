@@ -35,13 +35,16 @@ function Card(props) {
         }
         return s
     }
+    function MovieP(){
+        history.push(`/Movieprofile/${movie_data.id}`)
+    }
     useEffect(()=>{
         get()
     },[])
     return (
         <div>
              <div className="listItem parent">
-                <img className="child" src={`https://www.themoviedb.org/t/p/original${movie_data.poster_path}`} alt="moviePoster"/>
+                <img onClick={MovieP} className="child" src={`https://www.themoviedb.org/t/p/original${movie_data.poster_path}`} alt="moviePoster"/>
                 <div className="child">
                     <h3>{movie_data.original_title}</h3>
                     <p>{movie_data.release_date}</p>

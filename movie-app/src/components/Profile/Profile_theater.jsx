@@ -9,6 +9,10 @@ function Profile_theater() {
     let history = useHistory();
     async function get(){
         var {auth,type,user}=await IsAuth();
+        if (type==="user" || auth===false){
+
+            history.push("/login")
+        }
         var x=await axios.post('/theater',{_id:user})
         setTheater(x.data);
         console.log(x)
@@ -18,7 +22,6 @@ function Profile_theater() {
      
     async function get_movie(){
         var obj=[]
-        //console.log(theater)
         for (var i=0;i<theater.movies.length;i++)
         {
             console.log(i)
@@ -50,7 +53,6 @@ function Profile_theater() {
         return str.split("").reverse().join("");
     }
     function Slots(props){
-        // console.log(props)
         return (
             <div>
                 {

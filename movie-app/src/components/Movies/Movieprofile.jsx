@@ -2,13 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import "./new.css"
-// import userImage from "../../Assests/noprofile.jpg";
-// import CustomNavbar from '../CustomNavbar'
 import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useHistory,useParams } from "react-router-dom";
-// import { useSelector } from "react-redux";
-// import Loader from "../Loader";
 
 function Profile() {
   let history = useHistory();
@@ -20,13 +16,7 @@ function Profile() {
   const [query, setQuery] = useState("");
   const [links, setLinks] = useState("");
   const [helpcolor, setHelpcolor] = useState("white");
-
-//   const _id = useSelector((state) => {
-//     return state._id;
-//   });
-//   const token = useSelector((state) => {
-//     return state.token;
-//   });
+  var type=localStorage.getItem("type")
   const hideModal = () => {
     setIsOpen(false);
   };
@@ -68,9 +58,34 @@ function Profile() {
   };
 
   
+  const trailerPlayer=async (x)=>{
+    console.log(x);
+    try{
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/${x}/videos?api_key=7372ae765660f35a9b2e71883bb705a5&language=en-US`)
+      setQuery(response.data.results[0].key);  
+      console.log(query)
+      
+      var url=`https://www.youtube.com/embed/${query}`
+      console.log(url)
+      window.open(url, '_blank');        
+    }
+    catch(err){
+      console.log(err);
+    }      
+    
+    
+  }
+  const showTheater=()=>{
 
+    var url="/show_movie"+"/"+_id.toString();
+    history.push(url);
+    
+}
+const addBooking=()=>{
+    var url="/conc"+"/"+_id.toString();
+    history.push(url);
+}
   useEffect(() => {
-    console.log("mast");
     if(movieData.length==0)
     {
       console.log("hello");
@@ -87,7 +102,6 @@ function Profile() {
     <div>
       {castData.length ? (
         <>
-        {/* <CustomNavbar/> */}
         <div
           style={{ backgroundColor: "black", margin: "0px", padding: "0px" }}
         >
@@ -140,12 +154,7 @@ function Profile() {
               <div className="votecircle">
                 <h3 className="votevalue">{movieData.vote_average * 10}%</h3>
               </div>
-              <a
-                className="icon-heart"
-               
-                style={{ color: helpcolor }}
-                id="fav"
-              ></a>
+              <div>
               <p
                 style={{
                   fontFamily: "Lato",
@@ -156,30 +165,30 @@ function Profile() {
               >
                 Rating
               </p>
-              <p
-                style={{
-                  fontFamily: "Lato",
-                  fontSize: "20px",
-                  color: "white",
-                  display: "inline",
-                  marginLeft: "2%",
-                }}
-              >
-                Favorite
-              </p>
+              
               <p
                 style={{ display: "inline", marginLeft: "2%" }}
                 className="trailer"
               >
-                <a onClick={() => showModal()}>
+                <a onClick={() => trailerPlayer(_id )}>
                   <a
                     className="icon-caret-right"
-                    onClick={() => showModal()}
+                    onClick={() => trailerPlayer(_id)}
                     style={{ marginTop: "4px" }}
                   ></a>{" "}
                   Play Trailer
                 </a>
+               
+                  
               </p>
+              <div className="text-box" style={{ display: "inline", marginLeft: "2%" }}>
+                    {
+                 
+                        (type==="user")?<button type="submit"  onClick={addBooking}>Watch Now</button>:<button type="submit"  onClick={showTheater}>Show Now</button>
+                    }
+                    </div>
+              </div>
+              
               <br />
               <br />
               <h3>Overview</h3>
@@ -226,9 +235,7 @@ function Profile() {
                             src={`https://www.themoviedb.org/t/p/w150_and_h225_multi_faces${x.profile_path}`}
                             style={{ width: "150px", height: "230px" }}
                             className="imagebutton2"
-                            onClick={() => {
-                              history.push(`/peopleprofile/${x.id}`);
-                            }}
+                            
                           ></input>
                           <p
                             className="mons"
