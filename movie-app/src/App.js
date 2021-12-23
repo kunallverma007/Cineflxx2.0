@@ -13,6 +13,7 @@ import Card from "./components/Movie_Search/Card"
 import AddBooking from './components/Form/AddBooking';
 import Profile_theater from './components/Profile/Profile_theater';
 
+import Footer from "./components/Footer/Footer"
 import Profile_user from './components/Profile/Profile_user';
 import BookingTheater from './components/Booking/BookingTheater'
 import BookingUser from './components/Booking/BookingUser'
@@ -32,7 +33,7 @@ function App() {
         <Route exact path="/AddBooking/:theater_id/:movie_id/:language" component={AddBooking}/>
         <Route exact path="/show_movie/:movie_id" component={ShowTheater}/>
         <Route exact path="/card" component={Card}/>
-        <Route exact path="/test" component={Test}/>
+        <Route exact path="/test" component={Footer}/>
         <Route exact path="/theaters" component={Profile_theater}/>
         <Route exact path="/user" component={Profile_user}/>
 
