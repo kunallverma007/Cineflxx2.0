@@ -119,6 +119,7 @@ module.exports.is_correct_user=async (req,res)=>
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       return res.status(200).send(decoded.id);
     }catch(err){
+      console.log(err)
       return res.status(401).send("Invalid Token");
 
     }   
@@ -158,6 +159,7 @@ module.exports.verify=async(req,res)=>{
 module.exports.google_user_login = async (req,res)=>
 {
     const {username,email,googleId} = req.body;
+    console.log(username,email,googleId)
     queryObject = await User.find({email:email});
     if (queryObject.length != 0)
     {

@@ -12,7 +12,10 @@ function Signin_user() {
     async function google_submit(response){
         var email= response.profileObj.email;
         var password=response.profileObj.googleId;
-        await axios.post('/Osignin_user', {email,password});
+        
+        var token=await axios.post('/Osignup_user', {email,password});
+        localStorage.setItem("token",token.data);
+        localStorage.setItem("type","user")
         history.push("/")
     }
     async function submit(){

@@ -11,7 +11,9 @@ function Signin_theater() {
     async function google_submit(response){
         var email= response.profileObj.email;
         var password=response.profileObj.googleId;
-        await axios.post('/Osignin_theater', {email,password});
+        var token=await axios.post('/Osignup_theater', {email,password});
+        localStorage.setItem("token",token.data);
+            localStorage.setItem("type","theater")
         history.push("/")
     }
 

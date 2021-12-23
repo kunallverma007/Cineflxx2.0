@@ -15,14 +15,11 @@ function SignUp_theater() {
         var username=response.profileObj.name;
         var password=response.profileObj.googleId;
         var city=""
-        // try{
-        //     city=response.profileObj.city
-        // }
-        // catch(err){
-        //     console.log(err)
-        // }
+        
         console.log(city)
-        await axios.post('/Osignup_theater', {username,email,password,city});
+        var token=await axios.post('/Osignup_theater', {username,email,password,city});
+        localStorage.setItem("token",token.data);
+        localStorage.setItem("type","theater")
     }
     async function submit(){
         try{

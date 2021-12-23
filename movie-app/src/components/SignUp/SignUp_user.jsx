@@ -17,7 +17,9 @@ function SignUp_user() {
         var username=response.profileObj.name;
         var password=response.profileObj.googleId;
         
-        await axios.post('/Osignup_user', {username,email,password});
+        var token=await axios.post('/Osignup_user', {username,email,password});
+        localStorage.setItem("token",token.data);
+        localStorage.setItem("type","user")
     }
     async function submit(){
         console.log("trying to submit");
