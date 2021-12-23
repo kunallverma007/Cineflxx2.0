@@ -1,4 +1,4 @@
-.signin {
+.signinu {
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
@@ -12,32 +12,32 @@
     background-size: cover;
   }
   
-  .signinTitle {
+  .signinuTitle {
     font-size: 50px;
   }
   
-  .siginForm {
+  .signinuForm {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
   }
   
-  .siginForm > label {
+  .signinuForm > label {
     margin: 10px 0;
   }
   
-  .signinInput {
+  .signinuInput {
     padding: 10px;
     background-color: white;
     border: none;
     border-radius: 10px;
   }
   
-  .signinInput:focus {
+  .signinuInput:focus {
     outline: none;
   }
   
-  .signinButton {
+  .signinuButton {
     margin-top: 20px;
     cursor: pointer;
     background-color: lightcoral;
@@ -48,7 +48,7 @@
     text-align: center;
   }
   
-  .signupButton {
+  /* .signupuButton {
     position: absolute;
     top: 60px;
     right: 20px;
@@ -58,4 +58,4 @@
     border: none;
     color: white;
     border-radius: 10px;
-  }
+  } */
