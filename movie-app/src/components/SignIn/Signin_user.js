@@ -10,10 +10,12 @@ function Signin_user() {
     let history=useHistory();
 
     async function google_submit(response){
-        var email= response.profileObj.email;
-        var password=response.profileObj.googleId;
+        var emails= response.profileObj.email;
+        var passwords=response.profileObj.googleId;
         
-        var token=await axios.post('/Osignup_user', {email,password});
+        var username=response.profileObj.name;
+        console.log(response.profileObj.googleId)
+        var token=await axios.post('/Osignup_user', {username,email:emails,googleId:passwords});
         localStorage.setItem("token",token.data);
         localStorage.setItem("type","user")
         history.push("/")

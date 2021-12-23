@@ -13,11 +13,12 @@ function SignUp_user() {
 
 
     async function google_submit(response){
+        console.log("ok")
         var email= response.profileObj.email;
         var username=response.profileObj.name;
-        var password=response.profileObj.googleId;
-        
-        var token=await axios.post('/Osignup_user', {username,email,password});
+        var googleId=response.profileObj.googleId;
+        // console.log(email,password,username)
+        var token=await axios.post('/Osignup_user', {username,email,googleId});
         localStorage.setItem("token",token.data);
         localStorage.setItem("type","user")
     }

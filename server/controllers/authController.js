@@ -174,8 +174,8 @@ module.exports.google_user_login = async (req,res)=>
             const token=createToken(user._id);
             res.status(201).send(token);
         }catch(err){
-            const errors=handleErrors(err);
-            res.status(400).json({errors});
+            // const errors=handleErrors(err);
+            res.status(400).json({err});
         }
     }
   }
@@ -198,8 +198,8 @@ module.exports.google_user_login = async (req,res)=>
               const token=createToken(theatre._id);
               res.status(201).send(token);
           }catch(err){
-              const errors=handleErrors(err);
-              res.status(400).json({errors});
+              // const errors=handleErrors(err);
+              res.status(400).json({err});
           }
       }
   }

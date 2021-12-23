@@ -39,7 +39,7 @@ function Signin_theater() {
                 <button className="signintButton" type="submit" onClick={submit}>Sign In</button>
             </div>
             <br/>
-      <p>--------------OR--------------</p>
+      {/* <p>--------------OR--------------</p>
       <GoogleLogin
                 clientId="1095483584862-to18ei3hbu77vf6tpd558crcnsjdper7.apps.googleusercontent.com"
                 buttonText="Login"
@@ -47,7 +47,7 @@ function Signin_theater() {
                    google_submit(response)
                 }}
                 onFailure={(err)=>{console.log(err)}}
-            />
+            /> */}
             {/* <button className="signuptButton">Sign Up</button> */}
         </div>
     )
