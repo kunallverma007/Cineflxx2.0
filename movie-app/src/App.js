@@ -26,13 +26,13 @@ function App() {
         <Route exact path="/signup_theater" component={SignUp_theater}/>
         <Route exact path="/login_user" component={Signin_user}/>
         <Route exact path="/login_theater" component={Signin_theater}/>
-        <Route exact path="/" component={Test}/>
+        <Route exact path="/" component={Home}/>
         <Route path="/conc/:movie_id" component={Conc_theater}/>
         <Route path="/search" component={Search}/>
         <Route exact path="/AddBooking/:theater_id/:movie_id/:language" component={AddBooking}/>
         <Route exact path="/show_movie/:movie_id" component={ShowTheater}/>
         <Route exact path="/card" component={Card}/>
-        <Route exact path="/test" component={Home}/>
+        <Route exact path="/test" component={Test}/>
         <Route exact path="/theaters" component={Profile_theater}/>
         <Route exact path="/user" component={Profile_user}/>
 
