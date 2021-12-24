@@ -21,6 +21,7 @@ router.post('/Osignup_theater',authController.google_theatre_login)
 router.post('/payment',dataController.confirm_payment)
 router.post('/booking_of_user',dataController.get_booking_data)
 router.post('/delete_booking',dataController.booking_deleter)
+router.get('/verify/:type/:id',authController.verify)
 // router.post('/test',()=>{console.log("ajao bhai")})
 //router.get('/favicon.ico', (req, res) => res.status(204));
 module.exports=router;

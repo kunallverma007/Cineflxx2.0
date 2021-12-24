@@ -12,11 +12,12 @@ const transporter=nodemailer.createTransport({
   }
 });
 
+
 const sendMail = async (type,user) => {
   try {
-    var link="https://ezy-mail1.herokuapp.com/verify/"+user._id;
+    var link="https://localhost:3001/verify/"+type+"/"  +user._id;
     var mailoptions={
-        from:"ezymail.mailer@gmail.com",
+        from:"aman18sharma99@gmail.com",
         to:user.email,
         cc:"vermakunal088@gmail.com",
         subject:'',
@@ -140,6 +141,7 @@ module.exports.is_correct_theater=async (req,res)=>
     }   
 }
 module.exports.verify=async(req,res)=>{
+  console.log("ok")
   if (req.params.type==="user")
   {
     const user = await User.findById(req.params.id);
