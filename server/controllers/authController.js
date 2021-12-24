@@ -15,7 +15,7 @@ const transporter=nodemailer.createTransport({
 
 const sendMail = async (type,user) => {
   try {
-    var link="https://localhost:3001/verify/"+type+"/"  +user._id;
+    var link="http://localhost:3001/verify/"+type+"/"  +user._id;
     var mailoptions={
         from:"aman18sharma99@gmail.com",
         to:user.email,

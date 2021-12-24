@@ -15,12 +15,18 @@ function Profile_theater() {
         }
         var x=await axios.post('/theater',{_id:user})
         setTheater(x.data);
-        console.log(x)
+        // console.log(x)
         await get_movie();
     }
     const [movie,setMovie] = useState([])
      
     async function get_movie(){
+        
+        
+        if (movie.length!==0)
+        {
+            return;
+        }
         var obj=[]
         for (var i=0;i<theater.movies.length;i++)
         {
@@ -30,7 +36,6 @@ function Profile_theater() {
           
             try{
                 var x=await axios.get(url);
-            // console.log(x.data)
                 console.log(x)
                 obj.push({id:theater.movies[i].movie_id,title:x.data.title,language:theater.movies[i].language,backdrop_path:x.data.backdrop_path,slots:theater.movies[i].slots,prices:theater.movies[i].prices});
             }catch(err){
@@ -56,7 +61,7 @@ function Profile_theater() {
         return (
             <div>
                 {
-                   props.picture.slots.map((en)=>{
+                   props.picture.slots.map((en,key)=>{
                        var s=Rstring(en.toString())
                        
                        var x=s.slice(0,2)
@@ -78,15 +83,14 @@ function Profile_theater() {
     function Prices(props){
         return (
             <div>
-                <h6>Platinum : ₹{props.picture.prices[0]}</h6>
-                <h6>Gold : ₹{props.picture.prices[0]}</h6>
+                <h6>Platinum : ₹{props.picture.prices[2]}</h6>
+                <h6>Gold : ₹{props.picture.prices[1]}</h6>
                 <h6>Silver : ₹{props.picture.prices[0]}</h6>
             </div>
         );
     }
     useEffect(() => {
         get();
-        
     }, [movie])
     
 

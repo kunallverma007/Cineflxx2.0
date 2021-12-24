@@ -70,7 +70,8 @@ export default function CustomNavbar(props) {
         fontSize: "1.5rem",
       }}
     >
-      KHIDKI
+
+      AKMovies 
     </Navbar.Brand>
     {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
     {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
