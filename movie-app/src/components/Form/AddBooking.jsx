@@ -11,7 +11,7 @@ function AddBooking() {
     console.log(theater_id,movie_id,language)
     var options=[]
     var prices=[]
-    var theater=""
+    var chck=0
     function RString(str) {
         return str.split('').reverse().join('')
      }
@@ -27,27 +27,26 @@ function AddBooking() {
     async function get(){
         
         var user = await axios.post('/theater',{_id:theater_id})
-        theater=user.data.username
+        
         const curr=current_time()
+        
         user.data.movies.forEach((en)=>{
             
             if (en.movie_id===movie_id && en.language===language ) 
             {
             
                 en.slots.forEach((en1)=>{
-                    // console.log(en1)
                     var x=RString(en1);
                     
                     var xx=RString(x.substring(0,2))
                    
                    var yy=RString(x.substring(2,))
-                //   console.log(yy)
                    yy=yy.concat(":")
                   
                    yy= yy.concat(xx)
-                    // console.log(yy)
                     if (en1>curr)
-                    {
+                    {   
+                        chck=1
                         options.push({value:en1,label:yy})
                     }
                 })
@@ -57,11 +56,15 @@ function AddBooking() {
             }
 
         })
+        
+        if (chck==0) {
+            history.push("/")
+        }
     }   
    async function submit(){
        try{
            var {auth,type,user}=await IsAuth();
-           await axios.post('/booking_add',{user,movie_id,theater,slot:slot.value,pack:price.value,language})
+           await axios.post('/booking_add',{user,movie_id,theater:theater_id,slot:slot.value,pack:price.value,language})
            alert("Booking is added successfully redirecting in 6 secs")
             await new Promise(r => setTimeout(r, 4000));
             history.push("/")

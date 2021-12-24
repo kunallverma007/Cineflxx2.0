@@ -16,6 +16,7 @@ import Profile_theater from './components/Profile/Profile_theater';
 import Footer from "./components/Footer/Footer"
 import Profile_user from './components/Profile/Profile_user';
 import BookingTheater from './components/Booking/BookingTheater'
+import Booking from './components/Booking/Booking'
 import BookingUser from './components/Booking/BookingUser'
 import Movieprofile from './components/Movies/Movieprofile'
 import SignIn from './components/SignIn/SignIn'
@@ -41,7 +42,7 @@ function App() {
         <Route exact path="/login" component={SignIn}/>
         <Route exact path="/signup" component={SignUp}/>
         <Route exact path="/booking_theater" component={BookingTheater}/>
-
+        <Route exact path="/booking" component={Booking}/>
         <Route exact path="/booking_user" component={BookingUser}/>
         <Route exact path="/Movieprofile/:_id" component = {Movieprofile}/>
 

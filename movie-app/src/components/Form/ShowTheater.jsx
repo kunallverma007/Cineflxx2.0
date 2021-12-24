@@ -17,7 +17,7 @@ function ShowTheater() {
     const [gold,setGold]=useState(100)
     const [silver,setSilver]=useState(100);
     const [platinum,setPlatinum]=useState(100);
-    const [language,setLanguage]=useState("");
+    const [language,setLanguage]=useState("English");
     for (var i=0;i<24;i++){
         var time=i.toString() + ":00";
         var i_time=i.toString() + "00";
@@ -36,7 +36,7 @@ function ShowTheater() {
         timings.forEach((en)=>{time.push(en.value)})
 
      
-        const data={_id:user,movie_id:movie_id,slot:time,prices:[silver,gold,platinum],language:language};
+        const data={_id:user,movie_id:movie_id,slot:time,prices:[silver,gold,platinum],language};
         try{
             await axios.post('/show',data)
             alert("Movie is added successfully redirecting in 6 secs")

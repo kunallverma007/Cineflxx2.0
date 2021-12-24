@@ -60,7 +60,7 @@ function Horizontaldiv() {
  
     return (
       <>
-         <h1 style={{marginTop:"20px",marginLeft:"60px",color:"white"}}>Upcoming Movies</h1>
+         <h1 style={{marginTop:"20px",marginLeft:"60px",color:"white"}} id = "upcoming">Upcoming Movies</h1>
           <div className="scrolling-wrapper" id="ex3"style={{width:"90%",height:"400px",marginBottom:"5%",marginTop:"5%",marginLeft:"5%",marginRight:"4%",backgroundImage:`url(${right})`,backgroundRepeat: 'no-repeat',backgroundSize: "130% 180%"}} >
           <div>
           {

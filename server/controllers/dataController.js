@@ -6,6 +6,7 @@ module.exports.show_movie = async(req,res)=>{
 
     console.log(req.body);
     const { _id,movie_id,slot,prices,language } = req.body;
+    
     try{
         let movie ={
             movie_id: movie_id,
@@ -88,15 +89,28 @@ module.exports.booking_adder= async(req,res)=>{
         const booking=await Booking.create({user,movie_id,theater,slot,pack,language});
 
         await User.updateOne({ _id:user},{$push:{booking:[booking._id]}});
-        await Theater.updateOne({username:theater},{$push:{booking:[booking._id]}});
+        await Theater.updateOne({_id:theater},{$push:{booking:[booking._id]}});
         res.status(200).send("ok");
-    }catch(err)
+    }catch(err) 
     {
         console.log(err);
         res.status(400);
     }
 }
+//delete booking
+module.exports.booking_deleter = async(req,res)=>{
+    const {_id,movie_id,theater_id} = req.body;
+    try{
+        var x=await User.findOneAndUpdate({ _id:movie_id},{$pullAll:{booking:[_id]}});
+        var x=await Theater.findOneAndUpdate({_id:theater_id},{$pullAll:{booking:[_id]}});
 
+        await Booking.deleteOne({_id:_id})
+
+    }catch(err){
+
+        console.log(err)
+    }
+}
 //confirm payment request
 module.exports.confirm_payment=async(req,res)=>{
     const {booking_id} = req.body;
@@ -112,23 +126,28 @@ module.exports.confirm_payment=async(req,res)=>{
 //get theaters history pending
 module.exports.pending_history=async(req,res)=>{
     const { _id } = req.body;
-    // console.log(_id)
+    
     
 
     try{
-        var theater = await Theater.findOne({_id:_id});
-        
+       
         var booking= await Booking.find({});
-        theater=theater.username
-        
+        var theater=_id
+        booking.forEach(async(en)=>{
+            console.log(en.Date.getDay())
+            if (en.Date.getDay()<Date.now().getDay()){
+                var x=await User.findOneAndUpdate({ _id:en.user},{$pullAll:{booking:[_id]}});
+                var x=await Theater.findOneAndUpdate({_id:en.theater},{$pullAll:{booking:[_id]}});
+                await Booking.deleteOne({_id:en._id})
+            }
+        })
+        booking= await Booking.find({});
         var details=[];
         booking.forEach(en=>{
-            // console.log(en.theater===theater)
             if (en.theater===theater && en.payment===false){
                 
                 details.push(en);
             }
-            // console.log(details)
         })
         console.log(details)
         res.status(200).json(details);
@@ -142,23 +161,17 @@ module.exports.pending_history=async(req,res)=>{
 //get theaters history complete
 module.exports.complete_history=async(req,res)=>{
     const { _id } = req.body;
-    // console.log(_id)
-    
-
     try{
-        var theater = await Theater.findOne({_id:_id});
         
         var booking= await Booking.find({});
-        theater=theater.username
+        var theater=_id
         
         var details=[];
         booking.forEach(en=>{
-            // console.log(en.theater===theater)
             if (en.theater===theater && en.payment===true){
                 
                 details.push(en);
             }
-            // console.log(details)
         })
         console.log(details)
         res.status(200).json(details);
@@ -168,7 +181,6 @@ module.exports.complete_history=async(req,res)=>{
         res.status(400).send(err);
 }
 }
-
 
 //get theater details
 module.exports.theater_data=async(req,res)=>{
@@ -191,10 +203,17 @@ module.exports.get_booking_data = async(req,res)=>{
     try{
         var booking= await Booking.find({});
         
-        
+        booking.forEach(async(en)=>{
+            console.log(en.Date.getDay())
+            if (en.Date.getDay()<Date.now().getDay()){
+                var x=await User.findOneAndUpdate({ _id:en.user},{$pullAll:{booking:[_id]}});
+                var x=await Theater.findOneAndUpdate({_id:en.theater},{$pullAll:{booking:[_id]}});
+                await Booking.deleteOne({_id:en._id})
+            }
+        })
+        booking= await Booking.find({});
         var details=[];
         booking.forEach(en=>{
-            console.log(en.user)
             if (en.user===user_id){
                 details.push(en);
             }

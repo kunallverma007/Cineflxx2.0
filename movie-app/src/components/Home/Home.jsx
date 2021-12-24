@@ -69,7 +69,7 @@ export default function Home() {
             />
             <Mainbg/> 
             <Horizontaldiv></Horizontaldiv>  
-            <h2 style={{marginLeft:"5%",color:"white"}}>Trending</h2>
+            <h2 style={{marginLeft:"5%",color:"white"}} id="trending">Trending</h2>
             <div style={{marginLeft:"5%",marginRight:"4%",background:`url("https://www.themoviedb.org/assets/2/v4/misc/trending-bg-39afc2a5f77e31d469b25c187814c0a2efef225494c038098d62317d923f8415.svg")`,backgroundRepeat:"no-repeat",height:"45vh",backgroundPosition:"bottom"}}>
             <div className="scrolling-wrapper2" id="ex3">
               <div style={{ margin: "0px" }}>

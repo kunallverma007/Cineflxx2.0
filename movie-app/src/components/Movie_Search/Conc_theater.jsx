@@ -36,7 +36,7 @@ function Conc_theater(props) {
             try{
                 
                 var response = await axios.get(`https://us1.locationiq.com/v1/reverse.php?key=pk.6f585145ffdbe963de697efe0fa2c02a&lat=${location.coordinates.lat}&lon=${location.coordinates.lng}&format=json`)
-                console.log(response.data.city)
+                // console.log(response.data.city)
                 setCity(response.data.address.city)
                  
             }catch(err){

@@ -8,6 +8,7 @@ function BookingTheater() {
     
     const [complete,setComplete]=useState([]);
     const [pending,setPending]=useState([]);
+    const [theater,setTheater]=useState("");
     let history = useHistory();
 
     const authorization= async ()=>{ 
@@ -18,6 +19,8 @@ function BookingTheater() {
         }
         else{
             try{
+                var x=await axios.post('/theater',{_id:user})
+                setTheater(x)
                 var y= await axios.post('/pending',{_id:user});
                 setPending(y.data);
                 
@@ -30,7 +33,7 @@ function BookingTheater() {
         console.log(pending,complete);
     }
   
-
+   
      useEffect(()=>{
         authorization();
     },[])
@@ -40,34 +43,42 @@ function BookingTheater() {
         <div>
             <h1>Pending :</h1>
             {
-                pending.map((en)=>{
+                pending.map((en,key)=>{
                     console.log(en.payment)
                     return (
                         <BookingCard
+                            key={key}
                             movie_id = {en.movie_id}
                             Date = {en.Date}
                             slot={en.slot}
                             pack={en.pack}
-                            theater={en.theater}
+                            theater={theater}
+                            user={en.user}
                             payment={en.payment}
                             booking_id = {en._id}
                             type="1"
+                            fan="user"
                       />
                     );
                 })
             }
             <h1>Complete :</h1>
             {
-                complete.map((en)=>{
+                complete.map((en,key)=>{
                     return (
                         <BookingCard
+                            key={key}
                             movie_id = {en.movie_id}
                             Date = {en.Date}
                             slot={en.slot}
                             pack={en.pack}
-                            theater={en.theater}
+                            theater={theater}
                             payment={en.payment}
                             type="0"
+                            user={en.user}
+                            user_id={en.user}
+                            theater_id={en.theater}
+                            fan="user"
                         />
                     );
                 })

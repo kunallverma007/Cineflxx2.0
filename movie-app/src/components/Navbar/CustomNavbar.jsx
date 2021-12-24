@@ -74,26 +74,26 @@ export default function CustomNavbar(props) {
     </Navbar.Brand>
     {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
     {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
-      <Nav className="me-auto" style={{ width:"100px"}}>
-        <NavDropdown title="Movies" id="collasible-nav-dropdown">
-          <NavDropdown.Item href="/movie/1">Popular</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.2">Now Playing</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.3">Upcoming</NavDropdown.Item>
-          <NavDropdown.Item href="#action/3.4">Top Rated</NavDropdown.Item>
-        </NavDropdown>
+      <Nav className="me-auto" style={{ width:"400px",paddingTop:"20px",paddingBottom:"10px"}}>
+      <Nav.Link
+          style={{ color: "black", fontWeight: "bold" }}
+          href="#trending"
+        >
+          Trending
+        </Nav.Link>
       
-        <NavDropdown title="TVShows" id="collasible-nav-dropdown">
-          <NavDropdown.Item href="/show/1">Popular</NavDropdown.Item>
-          <NavDropdown.Item href="#action/4.2">Now Playing</NavDropdown.Item>
-          <NavDropdown.Item href="#action/4.3">ON TV</NavDropdown.Item>
-          <NavDropdown.Item href="#action/4.4">Top Rated</NavDropdown.Item>
-        </NavDropdown>
+        <Nav.Link
+          style={{ color: "black", fontWeight: "bold" }}
+          href="#upcoming"
+        >
+          Latest
+        </Nav.Link>
        
         <Nav.Link
           style={{ color: "black", fontWeight: "bold" }}
-          href="/people/1"
+          href="/booking"
         >
-          People
+          My Bookings
         </Nav.Link>
       </Nav>
       <Nav className="me-auto" style={{marginLeft:"70%"}}>
