@@ -8,8 +8,7 @@ export default function Footer() {
             <div className="footercontainer">
                 <div className="footerbox">
                     <h3>About us</h3>
-                    <p>It was started in the 2001 with Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Culpa, laboriosam.</p>
+                    <p>I am just a movie geek wanting to make the cinematic experince of movies easier to access and provide for peoples and theater.</p>
                 </div>
                 <div className="footerbox">
                     <h3>Quick Links</h3>
