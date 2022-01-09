@@ -1,0 +1,85 @@
+.showTheater {
+    height: calc(100vh - 50px);
+    display: flex;
+    font-size: 18px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+        rgba(184, 86, 86, 0.5),
+        rgba(48, 206, 87, 0.5)
+      ),
+      url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+    background-size: cover;
+  }
+
+.showTheaterTitle{
+    font-size: 50px;
+}
+
+.showTheaterForm {
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.showTheaterForm > label {
+    margin: 10px 0;
+}
+
+.showTheaterclass {
+    padding: 10px;
+    margin-left: 5px;
+    margin-right: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+  }
+
+  .showTheaterclass:focus {
+    outline: none;
+  }
+
+  .showTheaternewForm {
+    margin-top: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.showTheaternewForm > label {
+    margin: 10px 0;
+}
+
+.showTheaternewclass {
+    /* padding: 2px; */
+    margin-left: 5px;
+    margin-right: 20px;
+    /* background-color: rgb(136, 80, 80); */
+    border: none;
+    border-radius: 10px;
+  }
+
+.showTheaterlanguage{
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left:10px;
+    margin-right: 70px;
+    border-radius: 5px;
+}
+
+  .showTheaterbutton {
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: lightcoral;
+    color: white;
+    font-size: 15px;
+    padding-left:12px;
+    padding-right: 12px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+  }
