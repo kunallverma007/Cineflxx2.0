@@ -12,13 +12,8 @@ mongoose.connect(process.env.DB_CONNECT_URI,{},()=>console.log('connected to db'
 app.use(express.json());
 app.use(authRoutes);
 app.use(cors());
-// if (process.env.NODE_ENV==="production"){
-// 	app.use(express.static("client/build"));
-// 	app.get('*', (req, res) => {
-// 		res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-// 	  });
-// ) 
-//set up the server
+
+// set up the server
 if (process.env.NODE_ENV == "production"){
     
     app.use(express.static("movie-app/build"));
