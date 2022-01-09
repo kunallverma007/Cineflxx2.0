@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import { IsAuth } from '../Auth/Auth';
-import {useHistory} from 'react-router-dom';
+import {useHistory,Link} from 'react-router-dom';
 
 import './a.css'
 function Profile_theater() {
@@ -15,14 +15,11 @@ function Profile_theater() {
         }
         var x=await axios.post('/theater',{_id:user})
         setTheater(x.data);
-        // console.log(x)
         await get_movie();
     }
     const [movie,setMovie] = useState([])
      
     async function get_movie(){
-        
-        
         if (movie.length!==0)
         {
             return;
@@ -37,7 +34,7 @@ function Profile_theater() {
             try{
                 var x=await axios.get(url);
                 console.log(x)
-                obj.push({id:theater.movies[i].movie_id,title:x.data.title,language:theater.movies[i].language,backdrop_path:x.data.backdrop_path,slots:theater.movies[i].slots,prices:theater.movies[i].prices});
+                obj.push({id:theater.movies[i].movie_id,title:x.data.title,language:theater.movies[i].language,backdrop_path:x.data.backdrop_path,slots:theater.movies[i].slots,prices:theater.movies[i].prices,to:theater.movies[i].to,from:theater.movies[i].from,username:theater.username});
             }catch(err){
                 console.log(err)
             }
@@ -122,6 +119,7 @@ function Profile_theater() {
                            }
                         </div>
                         <button className="deleteBtn" onClick={()=>{ movie_delete(en.id,en.language) }}>Delete</button>
+                        <Link className="deleteBtn" to={{ pathname: "/edit" ,en }}>Edit</Link>
 
                     </div>
   

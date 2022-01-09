@@ -7,8 +7,8 @@ import {useHistory} from 'react-router-dom';
 import "./AddBooking.css"
 
 function AddBooking() {
-    const {theater_id,movie_id,language} = useParams();
-    console.log(theater_id,movie_id,language)
+    const {theater_id,movie_id,language,date} = useParams();
+    console.log(theater_id,movie_id,language,date)
     var options=[]
     var prices=[]
     var chck=0
@@ -27,14 +27,22 @@ function AddBooking() {
     async function get(){
         
         var user = await axios.post('/theater',{_id:theater_id})
+        let currDate=new Date();
         
-        const curr=current_time()
+        if (currDate.toISOString().slice(0,10)===date)
+        {
+            var curr=current_time()
+        }
+        else{
+            var curr="0000"
+        }
+
         
         user.data.movies.forEach((en)=>{
             
             if (en.movie_id===movie_id && en.language===language ) 
             {
-            
+                
                 en.slots.forEach((en1)=>{
                     var x=RString(en1);
                     
@@ -44,6 +52,7 @@ function AddBooking() {
                    yy=yy.concat(":")
                   
                    yy= yy.concat(xx)
+                   console.log(en1)
                     if (en1>curr)
                     {   
                         chck=1
@@ -57,17 +66,17 @@ function AddBooking() {
 
         })
         
-        if (chck==0) {
+        if (chck===0) {
             history.push("/")
         }
     }   
    async function submit(){
        try{
            var {auth,type,user}=await IsAuth();
-           await axios.post('/booking_add',{user,movie_id,theater:theater_id,slot:slot.value,pack:price.value,language})
+           await axios.post('/booking_add',{user,movie_id,theater:theater_id,slot:slot.value,pack:price.value,language,date:new Date()})
            alert("Booking is added successfully redirecting in 6 secs")
-            await new Promise(r => setTimeout(r, 4000));
-            history.push("/")
+           await new Promise(r => setTimeout(r, 4000));
+           history.push("/")
        }catch(err){
 
             console.log(err)

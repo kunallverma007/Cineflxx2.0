@@ -10,7 +10,7 @@ function Booking() {
             history.push("/booking_theater")
         }
     }catch(err){
-        history.push("/")
+        history.push("/login")
     }
     return (
         <div>

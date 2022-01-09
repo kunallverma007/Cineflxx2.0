@@ -38,6 +38,7 @@ function BookingCard(props) {
 
         try{
             await axios.post('/payment',{booking_id:props.booking_id})
+            window.location.reload()
         }catch(err){
             console.log(err)
         }
@@ -46,7 +47,7 @@ function BookingCard(props) {
     async function dele(){
 
         try{
-            await axios.post("delete_booking",{_id:props.booking_id,movie_id:props.user_id,theater_id:props.theater_id})
+            await axios.post("/delete_booking",{_id:props.booking_id,movie_id:props.user_id,theater_id:props.theater_id})
             history.push("/")
         }catch(err){
             console.log(err)
@@ -55,7 +56,7 @@ function BookingCard(props) {
     useEffect(() => {
         get_movie();
     }, [])
-   
+   console.log(props)
 
     return (
         <div className="card" style={{backgroundImage:`url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${movie.backdrop_path})`}}>
@@ -65,6 +66,7 @@ function BookingCard(props) {
                 <p>{theater_name}</p> <p>Time : {props.slot}</p>
                 <p>{props.pack}</p><p>{user_name}</p>
                 <p>Payment Status : {props.payment.toString()}</p>
+                <p>{props.booking_id}</p>
             </div>
             {
                 props.type==="1"?<button className='deleteBtn' onClick={verify}>Verify Payment</button>:<div></div>

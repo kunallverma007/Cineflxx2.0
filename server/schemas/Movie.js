@@ -4,16 +4,27 @@ const movie = new mongoose.Schema({
         type:Number
     },
     slots:{
-        type:[Number]
+        type:[String]
     },
     prices:
     {
         type:[Number]
     },
+
+    date_from:
+    {
+
+        type:Date
+    },
+    
     language:
     {
         type:String
-    }
+    },
+    date_to:
+    {
 
+        type:Date
+    },
 });
 module.exports=movie;

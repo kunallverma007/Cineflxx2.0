@@ -180,30 +180,29 @@ module.exports.google_user_login = async (req,res)=>
             res.status(400).json({err});
         }
     }
-  }
- 
-  module.exports.google_theatre_login = async (req,res)=>
-  {
-      const {username,email,password,city} = req.body;
-      queryObject = await Theater.find({email:email});
-      if (queryObject.length != 0)
-      {
-          const token=createToken(queryObject[0]._id);
-          res.status(201).send(token);
-      }
-      else
-      {
-          try{
-              console.log(city)
-              const theatre=await Theater.create({email,password,username,city});
-              theatre.verified = true;
-              const token=createToken(theatre._id);
-              res.status(201).send(token);
-          }catch(err){
-              // const errors=handleErrors(err);
-              res.status(400).json({err});
-          }
-      }
-  }
+S}
+module.exports.google_theatre_login = async (req,res)=>
+{
+    const {username,email,password,city} = req.body;
+    queryObject = await Theater.find({email:email});
+    if (queryObject.length != 0)
+    {
+        const token=createToken(queryObject[0]._id);
+        res.status(201).send(token);
+    }
+    else
+    {
+        try{
+            console.log(city)
+            const theatre=await Theater.create({email,password,username,city});
+            theatre.verified = true;
+            const token=createToken(theatre._id);
+            res.status(201).send(token);
+        }catch(err){
+            // const errors=handleErrors(err);
+            res.status(400).json({err});
+        }
+    }
+}
   
   

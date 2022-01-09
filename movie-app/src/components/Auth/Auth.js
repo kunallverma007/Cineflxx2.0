@@ -10,26 +10,23 @@ async function IsAuth(){
             
             type="user"
         }
-        else{
+
+        else if (localStorage.getItem("type")==="theater"){
             user = (await axios.post('/is_correct_theater', {token:localStorage.getItem('token')})).data;
             
-            console.log(user);
             type="theater"
+        }
+        else{
+            throw "nolocaldatapresent"
         }
         auth=true;
         
     }catch(err){
-        // localStorage.removeItem("token");
-       // localStorage.removeItem("type");
        auth=false;
        console.log(err);
     }
-  //  console.log(auth,user,type);
     return {auth,type,user};    
 }
-
-
-
 function logOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("type");

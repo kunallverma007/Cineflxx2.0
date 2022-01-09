@@ -20,7 +20,7 @@ function BookingTheater() {
         else{
             try{
                 var x=await axios.post('/theater',{_id:user})
-                setTheater(x)
+                setTheater(x.data.username)
                 var y= await axios.post('/pending',{_id:user});
                 setPending(y.data);
                 
@@ -79,6 +79,7 @@ function BookingTheater() {
                             user_id={en.user}
                             theater_id={en.theater}
                             fan="user"
+                            booking_id={en._id}
                         />
                     );
                 })

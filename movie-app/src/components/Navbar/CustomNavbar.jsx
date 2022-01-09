@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Nav, NavDropdown,Container } from "react-bootstrap";
+import { Navbar, Nav,Container } from "react-bootstrap";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import "../Movies/new.css"
@@ -8,7 +8,7 @@ import {useHistory} from 'react-router-dom';
 
 export default function CustomNavbar(props) {
   const history = useHistory();
-  console.log(props)
+ 
   function signout(){
       localStorage.removeItem("type");
       localStorage.removeItem("token");
@@ -106,7 +106,6 @@ export default function CustomNavbar(props) {
         </Nav.Link>
         <Condition />
       </Nav>
-   {/* / </Navbar.Collapse> */}
     </Container>
   </Navbar>
   );

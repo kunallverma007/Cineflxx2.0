@@ -14,7 +14,6 @@ export default function Home() {
     const [name,setName]=useState("")
     const apiii = async () => {
         try {
-       
           const Mdata = await axios.get(
             `https://api.themoviedb.org/3/trending/movie/week?api_key=7372ae765660f35a9b2e71883bb705a5`
           );
@@ -26,8 +25,6 @@ export default function Home() {
       };
       async function auth(){
         const {auth,type,user} = await IsAuth();
-        
-      //   console.log(auth,type,user)
         if (auth!==false){
           set_id(user)
           if (type==="user"){
@@ -41,7 +38,7 @@ export default function Home() {
               console.log(err)
             }
           }
-          else{
+          else if (type==="theater"){
             try{
               var x=await axios.post('/theater',{_id:user})
               console.log(x)
@@ -52,6 +49,7 @@ export default function Home() {
             console.log(err.response)
           }
           }
+          
         }
        
       }

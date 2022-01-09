@@ -22,6 +22,8 @@ import Movieprofile from './components/Movies/Movieprofile'
 import SignIn from './components/SignIn/SignIn'
 import SignUp from './components/SignUp/SignUp'
 import Home from './components/Home/Home.jsx'
+
+import EditShow from './components/Form/EditShow'
 function App() {
   return (
     <Router>
@@ -33,7 +35,7 @@ function App() {
         <Route exact path="/" component={Home}/>
         <Route path="/conc/:movie_id" component={Conc_theater}/>
         <Route path="/search" component={Search}/>
-        <Route exact path="/AddBooking/:theater_id/:movie_id/:language" component={AddBooking}/>
+        <Route exact path="/AddBooking/:theater_id/:movie_id/:language/:date" component={AddBooking}/>
         <Route exact path="/show_movie/:movie_id" component={ShowTheater}/>
         <Route exact path="/card" component={Card}/>
         <Route exact path="/test" component={Footer}/>
@@ -45,7 +47,7 @@ function App() {
         <Route exact path="/booking" component={Booking}/>
         <Route exact path="/booking_user" component={BookingUser}/>
         <Route exact path="/Movieprofile/:_id" component = {Movieprofile}/>
-
+        <Route exact path="/edit" component = {EditShow}/>
         {/* <Route exact path="/booking_user" component={BookingTheater}/> */}
       </Switch>
     </Router>

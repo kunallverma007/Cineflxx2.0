@@ -6,11 +6,12 @@ const Booking = new mongoose.Schema({
       required:true
     },
     theater:{
-      type:String,
+      type:String, //id of the theater
       required:true
     },
     user:{
-        type:String,
+
+        type:String, //id of the user
         required:true
     },
     language:{
@@ -33,7 +34,7 @@ const Booking = new mongoose.Schema({
     },
     Date:{
       type:Date,
-      default:Date.now()
+      required:true
     }
   })
 
