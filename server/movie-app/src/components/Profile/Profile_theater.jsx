@@ -3,8 +3,8 @@ import axios from 'axios'
 import { IsAuth } from '../Auth/Auth';
 import {useHistory,Link} from 'react-router-dom';
 
+import Loader from "../Loader/Loader"
 import './a.css'
-import Loader from '../Loader/Loader';
 function Profile_theater() {
     const [theater,setTheater]=useState({username:"",movies:[]});
     let history = useHistory();
@@ -18,7 +18,7 @@ function Profile_theater() {
         setTheater(x.data);
         await get_movie();
     }
-    const [movie,setMovie] = useState([])
+    const [movie,setMovie] = useState(1)
      
     async function get_movie(){
         if (movie.length!==0)
@@ -57,6 +57,7 @@ function Profile_theater() {
     }
     function Slots(props){
         return (
+            (movie===1)?<Loader/>:
             <div>
                 {
                    props.picture.slots.map((en,key)=>{
@@ -93,8 +94,7 @@ function Profile_theater() {
     
 
     return (
-
-        (theater.username==="")?<Loader/>:<div>
+        <div>
             <h1>{theater.username}</h1>
             <h2>Now Showing</h2>
             {

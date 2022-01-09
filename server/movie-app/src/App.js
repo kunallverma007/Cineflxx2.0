@@ -25,6 +25,7 @@ import Home from './components/Home/Home.jsx'
 
 import EditShow from './components/Form/EditShow'
 import NotFound from './components/NotFound/NotFound'
+
 function App() {
   return (
     <Router>
@@ -49,9 +50,9 @@ function App() {
         <Route exact path="/booking_user" component={BookingUser}/>
         <Route exact path="/Movieprofile/:_id" component = {Movieprofile}/>
         <Route exact path="/edit" component = {EditShow}/>
-        <Route path="" component={NotFound} />
-
         {/* <Route exact path="/booking_user" component={BookingTheater}/> */}
+        <Route path="" component={NotFound} />
+        
       </Switch>
     </Router>
   );

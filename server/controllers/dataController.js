@@ -8,10 +8,11 @@ const axios = require('axios');
 const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
-        user:'aman18sharma99@gmail.com',//our email here
-        pass:'UCJE7mkd:6PeHWA', //our password here
+        user:'cineflex4020@gmail.com',//our email here
+        pass:'V-9BPpgpX_T9tCV', //our password here
     }
 })
+
 const sendMailOfPayment = async (user) => {
 try {
     
@@ -38,7 +39,7 @@ const apology_mail = async (user_mail,theater_name,movie_title,date) => {
     try {
         
         var mailoptions={
-            from:"aman18sharma99@gmail.com",
+            from:"cineflexx4020@gmail.com",
             to:user_mail,
             cc:"vermakunal088@gmail.com",
             subject:'',
@@ -132,6 +133,7 @@ module.exports.movie_deleter = async(req,res)=>{
 //User details
 module.exports.user_data = async(req,res)=>{
     const { _id } = req.body;
+    
     try{
         var user = await User.findOne({ _id:_id });
         res.status(201).json(user);
