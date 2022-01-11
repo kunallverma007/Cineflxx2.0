@@ -1,13 +1,18 @@
 import React,{useState} from 'react';
 import axios from 'axios';
 import "./Signin_theater.css"
-
 import {useHistory} from "react-router-dom"
+
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
 function Signin_theater() {
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
     let history=useHistory();
-   
+    const [text,setText]=useState("");
+
+    const [open,setOpen] = useState(false)
     async function submit(){
         try{
             var token=await axios.post('/signin_theater',{email,password});
@@ -16,7 +21,8 @@ function Signin_theater() {
             history.push("/")
 
         }catch(err){
-            alert(err.response.data)    
+            setText(err.response.data)
+           setOpen(true)  
         }
     }
     return (
@@ -30,16 +36,12 @@ function Signin_theater() {
                 <button className="signintButton" type="submit" onClick={submit}>Sign In</button>
             </div>
             <br/>
-      {/* <p>--------------OR--------------</p>
-      <GoogleLogin
-                clientId="1095483584862-to18ei3hbu77vf6tpd558crcnsjdper7.apps.googleusercontent.com"
-                buttonText="Login"
-                onSuccess={(response) => {
-                   google_submit(response)
-                }}
-                onFailure={(err)=>{console.log(err)}}
-            /> */}
-            {/* <button className="signuptButton">Sign Up</button> */}
+            <Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="error" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Careful </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar>
         </div>
     )
 }

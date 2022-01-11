@@ -4,6 +4,9 @@ import { GoogleLogin } from 'react-google-login';
 import {useHistory} from 'react-router-dom';
 
 import "./SignUp_user.css"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
 
 function SignUp_user() {
     const [username, setUsername] =useState("");
@@ -11,7 +14,8 @@ function SignUp_user() {
     const [email, setEmail] =useState("");
     let history= useHistory();
 
-
+    const [text,setText]=useState("");
+    const [open,setOpen] = useState(false)
     async function google_submit(response){
         console.log("ok")
         var email= response.profileObj.email;
@@ -21,6 +25,7 @@ function SignUp_user() {
         var token=await axios.post('/Osignup_user', {username,email,googleId});
         localStorage.setItem("token",token.data);
         localStorage.setItem("type","user")
+        history.push("/")
     }
     async function submit(){
         console.log("trying to submit");
@@ -30,7 +35,8 @@ function SignUp_user() {
            
            history.push('/login_user')
         }catch(err){
-            alert(err.response.data)
+            setText(err.response.data)
+            setOpen(true) 
         }
     }
     return (
@@ -56,8 +62,14 @@ function SignUp_user() {
                 }}
                 onFailure={(err)=>{console.log(err)}}
             />
-      {/* <button className="signinutButton">Sign In</button> */}
-      </div>
+
+
+<Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="error" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Careful </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar>      </div>
   
     );
 }

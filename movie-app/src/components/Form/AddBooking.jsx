@@ -5,16 +5,20 @@ import {useParams} from 'react-router-dom'
 import {IsAuth} from '../Auth/Auth'
 import {useHistory} from 'react-router-dom';
 import "./AddBooking.css"
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
 function AddBooking() {
     const {theater_id,movie_id,language,date} = useParams();
     console.log(theater_id,movie_id,language,date)
+    const [text,setText]=useState("");
+    const [open,setOpen] = useState(false)
     var options=[]
     var prices=[]
-    var chck=0
     function RString(str) {
         return str.split('').reverse().join('')
      }
+     
      function current_time()
      {
         const d= new Date().toString();
@@ -26,7 +30,8 @@ function AddBooking() {
     const [price,setPrice]=useState();
     async function get(){
         
-        var user = await axios.post('/theater',{_id:theater_id})
+        var show = await axios.post('/get_show',{theater_id,movie_id,language,date})
+        show=show.data
         let currDate=new Date();
         
         if (currDate.toISOString().slice(0,10)===date)
@@ -36,45 +41,36 @@ function AddBooking() {
         else{
             var curr="0000"
         }
-
-        
-        user.data.movies.forEach((en)=>{
+            console.log("found")
             
-            if (en.movie_id===movie_id && en.language===language ) 
-            {
+            show.slots.forEach((en1)=>{
+                var x=RString(en1);
                 
-                en.slots.forEach((en1)=>{
-                    var x=RString(en1);
-                    
-                    var xx=RString(x.substring(0,2))
-                   
-                   var yy=RString(x.substring(2,))
-                   yy=yy.concat(":")
-                  
-                   yy= yy.concat(xx)
-                   console.log(en1)
-                    if (en1>curr)
-                    {   
-                        chck=1
-                        options.push({value:en1,label:yy})
-                    }
-                })
-                en.prices.forEach((en1)=>{
-                    prices.push({value:en1,label:en1})
-                })
-            }
+                var xx=RString(x.substring(0,2))
+                
+                var yy=RString(x.substring(2,))
+                yy=yy.concat(":")
+                
+                yy= yy.concat(xx)
+                console.log(en1)
+                if (en1>curr)
+                {   
+                    options.push({value:en1,label:yy})
+                }
+            })
+            show.prices.forEach((en1)=>{
+                prices.push({value:en1,label:en1})
+            })
+            
 
-        })
-        
-        if (chck===0) {
-            history.push("/")
-        }
     }   
    async function submit(){
        try{
            var {auth,type,user}=await IsAuth();
            await axios.post('/booking_add',{user,movie_id,theater:theater_id,slot:slot.value,pack:price.value,language,date:new Date()})
-           alert("Booking is added successfully redirecting in 6 secs")
+           setText("Booking is added successfully redirecting in 6 secs")
+            setOpen(true) 
+          
            await new Promise(r => setTimeout(r, 4000));
            history.push("/")
        }catch(err){
@@ -99,6 +95,12 @@ function AddBooking() {
             <Select className="addBookingClass" options={prices}  onChange={(value)=>{setPrice(value);}} />
             <button className="addBookingbutton" type="submit" onClick={submit}>Submit</button>
             </div>
+            <Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="success" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Success </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar> 
         </div>
     )
 }

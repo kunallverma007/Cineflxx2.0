@@ -71,7 +71,7 @@ export default function CustomNavbar(props) {
       }}
     >
 
-      AKMovies 
+      Cineflex 
     </Navbar.Brand>
     {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
     {/* <Navbar.Collapse id="responsive-navbar-nav"> */}

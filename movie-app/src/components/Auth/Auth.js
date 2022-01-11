@@ -20,6 +20,7 @@ async function IsAuth(){
             throw "nolocaldatapresent"
         }
         auth=true;
+        console.log(user)
         
     }catch(err){
        auth=false;

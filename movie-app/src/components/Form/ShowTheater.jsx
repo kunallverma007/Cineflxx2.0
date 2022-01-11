@@ -9,6 +9,11 @@ import { useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import axios from 'axios'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
+
+
 function ShowTheater() {
     const options=[ ]
     const {movie_id} = useParams();
@@ -18,8 +23,10 @@ function ShowTheater() {
     const [silver,setSilver]=useState(100);
     const [platinum,setPlatinum]=useState(100);
     const [language,setLanguage]=useState("English");
-    const [from,setFrom]=useState( Date())
-    const [to,setTo]=useState( Date())
+    const [from,setFrom]=useState(new Date())
+    const [to,setTo]=useState(new Date())
+    const [text,setText]=useState("");
+    const [open,setOpen] = useState(false)
     for (var i=0;i<24;i++){
         var time=i.toString() + ":00";
         var i_time=i.toString() + "00";
@@ -29,12 +36,7 @@ function ShowTheater() {
         options.push({value:i_new_time,label:new_time })
     }
     async function submit(){
-        if (from > to){
-            
-            alert("from date cant be larger then to date")
-
-            return; 
-        }
+        
         const {auth,type,user}=await IsAuth();
         console.log(auth,type,user)
         if (auth === false || type==="user"){
@@ -49,11 +51,14 @@ function ShowTheater() {
         
         try{
             await axios.post('/show',data)
-            alert("Movie is added successfully redirecting in 6 secs")
+            setText("Movie is added successfully redirecting in 6 secs")
+            
+            setOpen(true) 
             await new Promise(r => setTimeout(r, 4000));
             history.push('/')
         }catch(err){
-            console.log(err)
+            setText(err.response.data)
+            setOpen(true) 
         }
         
     }
@@ -85,6 +90,7 @@ function ShowTheater() {
                 <DesktopDatePicker
                     label="From"
                     value={from}
+                    minDate={new Date()}
                     onChange={(newValue) => {
                     setFrom(newValue);
                     }}
@@ -93,12 +99,20 @@ function ShowTheater() {
                 <DesktopDatePicker
                     label="To"
                     value={to}
+                    minDate={new Date()}
                     onChange={(newValue) => {
                     setTo(newValue);
                     }}
                     renderInput={(params) => <TextField {...params} />}
                 />
             </LocalizationProvider>
+            
+<Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="success" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Success </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar>      
             
             <button className="showTheaterbutton" type="submit" onClick={submit}>Submit</button>
             

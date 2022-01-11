@@ -3,6 +3,7 @@ const User=require("../schemas/User")
 const Booking = require("../schemas/Booking")
 const nodemailer= require('nodemailer');
 
+const Movie=require("../schemas/Movie")
 const axios = require('axios');
 //adds movie to theater
 const transporter=nodemailer.createTransport({
@@ -12,7 +13,6 @@ const transporter=nodemailer.createTransport({
         pass:'V-9BPpgpX_T9tCV', //our password here
     }
 })
-
 const sendMailOfPayment = async (user) => {
 try {
     
@@ -59,15 +59,14 @@ const apology_mail = async (user_mail,theater_name,movie_title,date) => {
 }
 module.exports.show_movie = async(req,res)=>{   
 
-    console.log(req.body);
+    // console.log(req.body);
     var { _id,movie_id,slot,prices,language,to,from } = req.body;
-    to =new Date(to);
 
-    from = new Date(from);
-
-    
+    to = to.slice(0,10)
+    from = from.slice(0,10)
     try{
         let movie ={
+            theater_id:_id,
             movie_id: movie_id,
             slots:slot,
             prices:prices,
@@ -75,10 +74,14 @@ module.exports.show_movie = async(req,res)=>{
             to,
             from
         }
-        await Theater.updateOne({_id:_id},{$push:{movies:[movie]}});
+        const new_movie=await Movie.create(movie)
+        console.log(new_movie)
+        console.log(new_movie._id.valueOf(),"ok")
+        await Theater.updateOne({_id:_id},{$push:{movies:[new_movie._id.valueOf()]}});
         res.status(200).send(req.body);
     }catch(err){
-        console.log(err);
+        console.log(err)
+        res.status(400).send(err.message);
     }
 }
 //Fetch theater details movie 
@@ -87,47 +90,51 @@ module.exports.movie_shower = async(req,res)=>{
     console.log(date)
     date = new Date(date)
     date = date.toISOString().slice(0,10)
-    
-    var user=await Theater.find({});
     var details=[]
-    user.forEach(en=>{
-        if (en.city===city)
-        {
-            en.movies.forEach(en2=>{
-                // console.log( en2.from.toISOString().slice(0,10),en2.to.toISOString().slice(0,10) >=date)
-                if (en2.movie_id===movie_id && en2.from.toISOString().slice(0,10) <= date && en2.to.toISOString().slice(0,10) >=date)
-                {   
-                    var obj = {movie:en2,theater:en}
-                    details.push(obj);
-                }
-            })
+    try{
+    var movies=await Movie.findByMovieId(movie_id);
+    const get = async (en) => {
         
+        
+       
+        if (date<=en.to.toISOString().slice(0,10) && date>=en.from.toISOString().slice(0,10)){
+            
+            var theater=await Theater.findBycity(en.theater_id,city);
+            
+            if (theater){
+                
+                var obj = {movie:en,theater}
+                details.push(obj);
+            }
         }
-    })
+    }
+    for (var i=0;i<movies.length;i++){
+        await get(movies[i])
+    }
+
     console.log(details)
-    res.status(200).json(details);
+    res.status(200).json(details)
+}
+catch(err){
+    console.log(err.message)
+}
 
 }
 //delete movie from theater
 module.exports.movie_deleter = async(req,res)=>{
-    console.log(req.body)
     const {_id,movie_id,language} = req.body;
+    console.log(req.body)
     try{
-        const theater = await Theater.find({_id:_id});
-        const movies = theater[0].movies;
-        let i = 0;
-        while (i < movies.length)
-        {
-            if (movies[i].movie_id === movie_id && movies[i].language === language)
-                movies.splice(i,1);
-            else
-                i ++;
-        }
-        await Theater.updateOne({_id:_id},{$set:{movies:movies}});
+
+        const movie=await Movie.findByPkey(movie_id,language,_id);
+        console.log(movie)
+        await Movie.deleteMany({_id:movie._id})
+        
+        await Theater.updateOne({_id:_id},{$pull:{movies:movie._id}});
         res.status(200).send("ok");
     }catch(err){
         console.log(err);
-        res.status(400);
+        res.status(400).send(err.message);
     }
 }
 //User details
@@ -170,14 +177,13 @@ module.exports.booking_deleter = async(req,res)=>{
     //movie_id here is user_id
     const {_id,movie_id,theater_id} = req.body;
     try{
-        var x=await User.findOneAndUpdate({ _id:movie_id},{$pullAll:{booking:[_id]}});
-        var x=await Theater.findOneAndUpdate({_id:theater_id},{$pullAll:{booking:[_id]}});
-
+       await User.findOneAndUpdate({ _id:movie_id},{$pullAll:{booking:[_id]}});
+       await Theater.findOneAndUpdate({_id:theater_id},{$pullAll:{booking:[_id]}});
         await Booking.deleteOne({_id:_id})
 
     }catch(err){
 
-        console.log(err)
+        console.log(err.message)
     }
 }
 //confirm payment request
@@ -202,30 +208,26 @@ module.exports.confirm_payment=async(req,res)=>{
 //get theaters history pending
 module.exports.pending_history=async(req,res)=>{
     const { _id } = req.body;
-    
-    
-
     try{
-       
+        
         var booking= await Booking.find({});
         var theater=_id
-        const today=new Date()
-        booking.forEach(async(en)=>{
-            console.log("day",en.Date.getDay())
-            if (en.Date.getDay()<today.getDay()){
-                var x=await User.findOneAndUpdate({ _id:en.user},{$pullAll:{booking:[_id]}});
-                var x=await Theater.findOneAndUpdate({_id:en.theater},{$pullAll:{booking:[_id]}});
-                await Booking.deleteOne({_id:en._id})
+        
+        
+        var today=new Date()
+        today=today.toISOString().slice(0,10);
+        const get=async(en)=>{
+            if (en.Date.toISOString().slice(0,10)<today){
+                await axios.post("http://localhost:3001/delete_booking",{_id:en._id,movie_id:en.user,theater_id:en.theater})
             }
-        })
-        booking= await Booking.find({});
-        var details=[];
-        booking.forEach(en=>{
-            if (en.theater===theater && en.payment===false){
-                
-                details.push(en);
-            }
-        })
+        }
+        
+       for (var i=0;i<booking.lenght;i++){
+           await get(booking[i])
+       }
+        
+        var details = await Booking.find({theater:theater,payment:false});
+        
         res.status(200).json(details);
     }
     catch(err){
@@ -237,30 +239,9 @@ module.exports.pending_history=async(req,res)=>{
 module.exports.complete_history=async(req,res)=>{
     const { _id } = req.body;
     try{
-        var booking= await Booking.find({});
-        var theater=_id
-        const today=new Date()
-
-        console.log("today",today)
-        booking.forEach(async(en)=>{
-            console.log(en.Date.getDay())
-            if (en.Date.getDay()<today.getDay()){
-                var x=await User.findOneAndUpdate({ _id:en.user},{$pullAll:{booking:[_id]}});
-                var x=await Theater.findOneAndUpdate({_id:en.theater},{$pullAll:{booking:[_id]}});
-                await Booking.deleteOne({_id:en._id})
-            }
-        })
-        var booking= await Booking.find({});
         var theater=_id
         
-        var details=[];
-        booking.forEach(en=>{
-            if (en.theater===theater && en.payment===true){
-                
-                details.push(en);
-            }
-        })
-        // console.log(details)
+        var details = await Booking.find({theater:theater,payment:true});
         res.status(200).json(details);
     }
     catch(err){
@@ -268,46 +249,66 @@ module.exports.complete_history=async(req,res)=>{
         res.status(400).send(err);
 }
 }
-//get theater details
+//get theater details 
 module.exports.theater_data=async(req,res)=>{
     const {_id}=req.body;
-    // console.log("id",_id)
+    async function get(_id){
+        var x= await Movie.findOne({_id:_id})
+        console.log(x)
+
+        return x.toJSON()
+    }
     try{            
-        var user = await Theater.findOne({_id:_id });
-        // console.log(user)
-        res.status(201).json(user);      
+        var x = await Theater.findOne({_id:_id });
+
+        var user = x.toJSON()
+        var flag=0;
+        for (var i=0;i<user.movies.length;i++){
+            flag=1;
+            var x=await get(user.movies[i]);
+            user.movies[i]=x
+        }
+        
+        const new_user = {...user,flag:flag}
+    
+            res.status(201).json(new_user)
+        console.log(new_user)
+    
+        
+        
     }catch(err){
         console.log(err)
-        res.status(401).json(err);
+        res.status(401).json(err.message);
     }
 } 
 //get booking details user
+
 module.exports.get_booking_data = async(req,res)=>{
     const {user_id} = req.body;
     try{
         var booking= await Booking.find({});
-        const today=new Date();
-        console.log("today",today)
-        booking.forEach(async(en)=>{
-            console.log("date",en.Date.getDay())
-            if (en.Date.getDay()<today.getDay()){
-                var x=await User.findOneAndUpdate({ _id:en.user},{$pullAll:{booking:[_id]}});
-                var x=await Theater.findOneAndUpdate({_id:en.theater},{$pullAll:{booking:[_id]}});
-                await Booking.deleteOne({_id:en._id})
+        var today=new Date();
+        today=today.toISOString().slice(0,10);
+
+        const get=async(en)=>{
+            if (en.Date.toISOString().slice(0,10)<today){
+                await axios.post("http://localhost:3001/delete_booking",{_id:en._id,movie_id:en.user,theater_id:en.theater})
             }
-        })
-        booking= await Booking.find({});
-        var details=[];
-        booking.forEach(en=>{
-            if (en.user===user_id){
-                details.push(en);
-            }
-        })
+        }
+        for (var i=0;i<booking.lenght;i++){
+            await get(booking[i])
+        }
+         
+        
+        var details= await Booking.find({user:user_id});
+      
+        
         res.status(200).send(details);
-        // console.log(details)
+  
     }
     catch(err){
-        res.status(400).send(err);
+        console.log(err)
+        res.status(400).send(err.message);
     }
 
 }
@@ -316,8 +317,9 @@ module.exports.edit = async(req,res)=>{
     var {_id,movie_id,slot,prices,language,to,from,theater_name,movie_title}=req.body;
     
     try{
-        await axios.post('http://localhost:3001/delete_movie',{_id,movie_id,language})
-        await axios.post('http://localhost:3001/show',{_id,movie_id,slot,prices,language,to,from})
+        var movie = await Movie.findByPkey(movie_id,language,_id);
+        movie.slot = slot;movie.prices=prices;movie.to = to;movie.from=from;
+        movie.save()
         var theater = await Theater.findOne({_id:_id})
         to_date=to.slice(0,10)
         from_date=from.slice(0,10)
@@ -340,5 +342,30 @@ module.exports.edit = async(req,res)=>{
         res.status(200).send("All ok");
     }catch(err){
         console.log(err)
+    }
+}
+//get slot data
+
+module.exports.get_show =async(req, res)=>{
+    const {theater_id,language,movie_id,date} = req.body
+    
+    try{
+        var psSlot={}
+        var slot = await Movie.findByPkeyAll(movie_id,language,theater_id);
+        console.log(slot)
+        for (var i=0;i<slot.length;i++){
+            var to=slot[i].to.toISOString().slice(0,10)
+            var from =slot[i].from.toISOString().slice(0,10)
+            console.log(to,from)
+            if (date<=to && date>=from){
+                psSlot=slot[i].toJSON()
+            }else{
+                console.log("delete")
+                await axios.post('/delete_movie',{_id:theater_id,movie_id:movie_id,language:language});
+            }
+        }
+        res.status(200).send(psSlot);
+    }catch(err){
+        res.status(400).send(err.message)
     }
 }

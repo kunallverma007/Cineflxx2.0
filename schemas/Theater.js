@@ -1,6 +1,6 @@
 const mongoose=require('mongoose');
 const movie=require('./Movie')
-const { isEmail } = require('validator');
+const { isEmail,isAlpha } = require('validator');
 const bcrypt = require('bcrypt');
 const Theater=new mongoose.Schema({
     email:
@@ -8,17 +8,21 @@ const Theater=new mongoose.Schema({
         type:String,
         required:true,
         validate:[isEmail,'Please enter valid email']
+        
     },
     username:
     {
         type:String,
-        required:true
+        required:[true,'Enter username'],
+        validate: [isAlpha, 'Usernames may only have letters.']
     },
 
     password:
     {
         type:String,
-        required:true
+        required:[true,'Enter password'],
+        minLength: [8, 'Password should be at least 8 characters']
+
     },
     verified:
     {
@@ -28,12 +32,13 @@ const Theater=new mongoose.Schema({
     city:
     {
         type:String,
-        required:true
+        required:[true,'Please enter a city'],
+        validate: [isAlpha, 'City name may only have letters.']
     },
     movies:
     {
         
-      type:[Object]
+      type:[String]
     },
     booking:
     {
@@ -52,6 +57,7 @@ const Theater=new mongoose.Schema({
     console.log(email,password);
     const user = await this.findOne({ email });
     if (user) {
+      if (!user.verified) { throw Error('User not verified')}
       const auth = await bcrypt.compare(password, user.password);
       if (auth) {
         return user;
@@ -60,4 +66,7 @@ const Theater=new mongoose.Schema({
     }
     throw Error('incorrect email');
   };
+  Theater.statics.findBycity = function (_id,city){
+    return this.findOne({ _id:_id,city:city });
+}
 module.exports=mongoose.model('Theater',Theater)

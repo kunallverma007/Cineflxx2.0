@@ -17,14 +17,14 @@ function BookingTheater() {
         console.log(auth,type,user)
         
         if (auth===false || type==="theater"){
-            console.log(auth,type,user)
+            history.push("/login")
         }
         else{ 
             try{
                 var x=await axios.post("/user",{_id:user})
                 setUser(x.data.username)
                 var y= await axios.post('/booking_of_user',{user_id:user});
-                console.log(y)
+                console.log(y,"booking")
                 setBooking(y.data);
                
                 

@@ -13,9 +13,9 @@ function BookingTheater() {
 
     const authorization= async ()=>{ 
         const {auth,type,user}=await IsAuth();
-        console.log(12)
+        console.log(auth,type,user);
         if (auth===false || type==="user"){
-            console.log(auth,type,user)
+            history.push('/login')
         }
         else{
             try{

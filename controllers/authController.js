@@ -45,22 +45,17 @@ const createToken = (id) => {
 module.exports.signup_user=  async (req,res)=>
 {   
     const {email,password,username} = req.body;
-    queryObject = await User.find({email:email});
-    if (queryObject.length != 0)
-    {
-        res.status(400).send("Email already registered!!")
-    }
-    else{
-      try{
+  
+    try{
 
-          const user=await User.create({email,password,username});
-          await sendMail("user",user);
-          const token=createToken(user._id);
-          res.status(201).send(token);
-      }catch(err){
-          res.status(400).send(err);
-      }
-  }
+        const user=await User.create({email,password,username});
+        await sendMail("user",user);
+        const token=createToken(user._id);
+        res.status(201).send(token);
+    }catch(err){
+        res.status(400).send(err.message);
+    }
+  
 }
 module.exports.signin_user=async (req,res)=>
 {
@@ -68,12 +63,10 @@ module.exports.signin_user=async (req,res)=>
     try{
         const user=await User.login(email,password);
         const token=createToken(user._id);
-        if (user.verified===false){
-          res.status(400).send("user is not verified")
-        }
-        else{
-          res.status(201).send(token);
-        }
+      
+        
+        res.status(201).send(token);
+      
     }catch(err){
       res.status(400).send(err.message)
     }
@@ -82,21 +75,17 @@ module.exports.signup_theater=async (req,res)=>
 {
 
     const {email,password,username,city} = req.body;
-    queryObject = await Theater.find({email:email});
-    if (queryObject.length != 0)
-    {
-        res.status(400).send("Email already registered!!")
+    console.log(req.body);
+    
+    try{
+        const user=await Theater.create({email,password,username,city});
+        await sendMail("theater",user);
+        const token=createToken(user._id);
+        res.status(201).json({token});
+    }catch(err){
+        res.status(400).send(err.message)
     }
-    else{
-      try{
-          const user=await Theater.create({email,password,username,city});
-          await sendMail("theater",user);
-          const token=createToken(user._id);
-          res.status(201).json({token});
-      }catch(err){
-          res.status(400).send(err)
-      }
-  }
+  
 }
 module.exports.signin_theater=async (req,res)=>
 {
@@ -104,9 +93,6 @@ module.exports.signin_theater=async (req,res)=>
     try{
         const user=await Theater.login(email,password);
         const token=createToken(user._id);
-        if (user.verified===false){
-          res.status(400).send("user is not verified")
-        }
         res.status(201).send(token);
     }catch(err){
         
@@ -141,7 +127,6 @@ module.exports.is_correct_theater=async (req,res)=>
     }   
 }
 module.exports.verify=async(req,res)=>{
-  console.log("ok")
   if (req.params.type==="user")
   {
     const user = await User.findById(req.params.id);
@@ -157,7 +142,6 @@ module.exports.verify=async(req,res)=>{
     return res.redirect("http://localhost:3000/login")
   }
 }
-
 module.exports.google_user_login = async (req,res)=>
 {
     const {username,email,googleId} = req.body;

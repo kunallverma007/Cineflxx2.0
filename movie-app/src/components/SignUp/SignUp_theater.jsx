@@ -1,34 +1,30 @@
 import React,{useState} from 'react'
 import axios from 'axios'
-import { GoogleLogin } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import './SignUp_theater.css'
 
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
 function SignUp_theater() {
     const [username, setUsername] =useState("");
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
     const [city, setCity] =useState("");
     let history = useHistory();
-    async function google_submit(response){
-        var email= response.profileObj.email;
-        var username=response.profileObj.name;
-        var password=response.profileObj.googleId;
-        var city=""
-        
-        console.log(city)
-        var token=await axios.post('/Osignup_theater', {username,email,password,city});
-        localStorage.setItem("token",token.data);
-        localStorage.setItem("type","theater")
-    }
+    
+    const [text,setText]=useState("");
+    const [open,setOpen] = useState(false)
     async function submit(){
         try{
             var token=await axios.post('/signup_theater',{username,password,email,city});
             
             history.push('/login_theater')
+           console.log("received")
 
           }catch(err){
-            alert(err.response.data)
+            setText(err.response.data)
+            setOpen(true)  
         }
     }
 
@@ -47,18 +43,12 @@ function SignUp_theater() {
           <button className="signuptButton" type="submit" onClick={submit}>Sign Up</button>
       </div>
       <br/>
-      {/* <p>--------------OR--------------</p>
-      <GoogleLogin
-                clientId="1095483584862-to18ei3hbu77vf6tpd558crcnsjdper7.apps.googleusercontent.com"
-                buttonText="Login"
-                onSuccess={(response) => {
-                   google_submit(response)
-                }}
-                onFailure={(err)=>{console.log(err)}}
-            /> */}
-      
-      
-      {/* <button className="signinuttButton">Sign In</button> */}
+      <Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="error" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Careful </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar>
       </div>
     )
 }

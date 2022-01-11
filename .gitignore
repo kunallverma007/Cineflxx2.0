@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/movie-app
 /.pnp
 .pnp.js
 

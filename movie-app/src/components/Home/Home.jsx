@@ -40,7 +40,9 @@ export default function Home() {
           }
           else if (type==="theater"){
             try{
+              console.log("Hello")
               var x=await axios.post('/theater',{_id:user})
+
               console.log(x)
               setName(x.data.username)      
           }catch(err){

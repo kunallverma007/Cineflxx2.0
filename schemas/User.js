@@ -1,5 +1,6 @@
 const mongoose=require('mongoose');
-const { isEmail } = require('validator');
+const { isEmail,isAlpha } = require('validator');
+
 const bcrypt = require('bcrypt');
 const User = new mongoose.Schema({
     email:
@@ -11,13 +12,17 @@ const User = new mongoose.Schema({
     username:
     {
         type:String,
-        required:true
+        required:[true,'Enter username'],
+        validate: [isAlpha, 'Usernames may only have letters.']
+
     },
 
     password:
     {
         type:String,
-        required:true
+        required:[true,'Enter password'],
+        minLength: [8, 'Password should be at least 8 characters']
+
     },
     verified:
     {
@@ -41,6 +46,7 @@ User.pre('save', async function(next) {
   User.statics.login = async function(email, password) {
     const user = await this.findOne({ email });
     if (user) {
+      if (!user.verified) { throw Error('User not verified')}
       const auth = await bcrypt.compare(password, user.password);
       if (auth) {
         return user;

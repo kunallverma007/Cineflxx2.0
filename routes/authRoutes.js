@@ -24,6 +24,7 @@ router.post('/delete_booking',dataController.booking_deleter)
 router.get('/verify/:type/:id',authController.verify)
 
 router.post('/edit_show',dataController.edit)
+router.post('/get_show',dataController.get_show)
 // router.post('/test',()=>{console.log("ajao bhai")})
 //router.get('/favicon.ico', (req, res) => res.status(204));
 module.exports=router;

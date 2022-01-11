@@ -4,11 +4,16 @@ import { GoogleLogin } from 'react-google-login';
 import "./Signin_user.css"
 
 import {useHistory} from "react-router-dom"
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
 function Signin_user() {
     const [password, setPassword] =useState("");
     const [email, setEmail] =useState("");
     let history=useHistory();
+    const [text,setText]=useState("");
 
+    const [open,setOpen] = useState(false)
     async function google_submit(response){
         var emails= response.profileObj.email;
         var passwords=response.profileObj.googleId;
@@ -29,7 +34,8 @@ function Signin_user() {
 
         }catch(err){
             
-           alert(err.response.data)
+           setText(err.response.data)
+           setOpen(true)
         }
     }
     return (
@@ -53,7 +59,14 @@ function Signin_user() {
                 }}
                 onFailure={(err)=>{console.log(err)}}
             />
-        </div>
+   
+        <Snackbar open={open} autoHideDuration={4000} onClose={()=>{setOpen(false)}} anchorOrigin={ {vertical: 'top', horizontal: 'center'} }>
+        <Alert onClose={()=>{setOpen(false)}} severity="error" sx={{ width: '400px',fontSize: '20px'}}>
+            <AlertTitle sx={{fontSize: '20px'}}> Careful </AlertTitle>
+          {text}
+        </Alert>
+      </Snackbar>
+      </div>
     )
 }
 

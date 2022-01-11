@@ -1,7 +1,14 @@
 const mongoose = require('mongoose');
-const movie = new mongoose.Schema({
+const Movie = new mongoose.Schema({
     movie_id:{
-        type:Number
+        type:Number,
+        
+
+        required:true
+    },
+    theater_id:{
+        type:String,
+        required:true
     },
     slots:{
         type:[String]
@@ -11,7 +18,7 @@ const movie = new mongoose.Schema({
         type:[Number]
     },
 
-    date_from:
+    from:
     {
 
         type:Date
@@ -21,10 +28,30 @@ const movie = new mongoose.Schema({
     {
         type:String
     },
-    date_to:
+    to:
     {
 
         type:Date
     },
 });
-module.exports=movie;
+Movie.statics.findByMovieId = function (movie_id){
+    return this.find({ movie_id:movie_id});
+}
+Movie.statics.findByPkey= function (movie_id,language,theater_id){
+    return this.findOne({ movie_id:movie_id,language:language,theater_id:theater_id});
+}
+Movie.statics.findByPkeyAll= function (movie_id,language,theater_id){
+    return this.find({ movie_id:movie_id,language:language,theater_id:theater_id});
+}
+
+Movie.pre('save',function(next){
+    if (this.to.toISOString().slice(0,10)<this.from.toISOString().slice(0,10)){
+        throw new Error('to date cant be less the from date');
+    }
+    else{
+
+       
+        next()
+    }
+})
+module.exports=mongoose.model('Movie',Movie);

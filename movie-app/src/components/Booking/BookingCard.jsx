@@ -48,7 +48,7 @@ function BookingCard(props) {
 
         try{
             await axios.post("/delete_booking",{_id:props.booking_id,movie_id:props.user_id,theater_id:props.theater_id})
-            history.push("/")
+            window.location.reload()
         }catch(err){
             console.log(err)
         }
