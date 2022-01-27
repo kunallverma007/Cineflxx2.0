@@ -18,7 +18,6 @@ function Profile_theater() {
             history.push("/login")
         }
         var x=await axios.post('/theater',{_id:user})
-        console.log(x)
         if (x.data.flag===0){
             console.log("Found no movies")
             setLoaded(true);
@@ -45,7 +44,6 @@ function Profile_theater() {
             console.log("movies",theater.movies)
             for (var i=0;i<theater.movies.length;i++)
             {
-                // theater.movies[i]=JSON.parse(theater.movies[i])
                 console.log(theater.movies[i])
                 var url = `https://api.themoviedb.org/3/movie/${theater.movies[i].movie_id}?api_key=6f63772ed65e8e432bd7e974f7a69540&language=en-US`
             
@@ -58,13 +56,13 @@ function Profile_theater() {
             }
             setMovie(obj)
             console.log("movie",obj)
-            setLoaded(true)
+            // setLoaded(true)
         }
     }
     async function movie_delete(id,language){
         try{
             await axios.post('/delete_movie',{_id:theater._id,movie_id:id,language})
-            history.push("/theater_data")
+            history.push("/theaters")
         }catch(err){
             alert("movie cannot be deleted!");
 
@@ -77,7 +75,7 @@ function Profile_theater() {
     function Slots(props){
         return (
             
-            <div>
+            <div >
                 {
                    props.picture.slots.map((en,key)=>{
                        var s=Rstring(en.toString())
@@ -88,9 +86,9 @@ function Profile_theater() {
                        y=Rstring(y)
                        y=y.concat(":")
                        en=y.concat(x)
-
+                       en = en.concat(";")
                        return(
-                            <p>{en}</p>
+                            <p className="slots" key={key}>{en}</p>
                        );
                    })
                 }
@@ -111,28 +109,28 @@ function Profile_theater() {
         get();
     }, [movie])
     
-    if (loaded===false){
+    if (loaded===false && movie.length===0){
         return <Loader/>
     }
     else{ 
 
         if (movie.length===0){
-            return <div><h1>No movie showing currently</h1></div>
+            return <div className = "profileBackground"><h1>No movie showing currently</h1></div>
         }
         else{
     return (
-       <div>
-            <h1>{theater.username}</h1>
-            <h2>Now Showing</h2>
+       <div className = "profileBackground">
+            <h1 className= "profileHeader">{theater.username}</h1>
+            <h2 className= "profileHeader">Now Showing</h2>
             {
-                movie.map(en=>{
+                movie.map((en,key)=>{
 
                     
                     
                     return(
                     
                     
-                    <div className="card" style={{backgroundImage:`url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${en.backdrop_path})`}}>
+                    <div key={key} className="card" style={{backgroundImage:`url(https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces${en.backdrop_path})`}}>
                         <div className="inner">
                             <h2 className="title">{en.title}</h2>
                             <h4 className='title'>{en.language}</h4>
@@ -147,9 +145,10 @@ function Profile_theater() {
                                 </div>
                            }
                         </div>
+                        <div className="inner2">
                         <button className="deleteBtn" onClick={()=>{ movie_delete(en.id,en.language) }}>Delete</button>
-                        <Link className="deleteBtn" to={{ pathname: "/edit" ,en }}>Edit</Link>
-
+                        <button className="deleteBtn"><Link className="deleteBtn" to={{ pathname: "/edit" ,en }}>Edit</Link></button>
+                    </div>
                     </div>
   
                     )

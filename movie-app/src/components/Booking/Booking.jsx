@@ -1,22 +1,17 @@
-import React from 'react'
-import {useHistory} from "react-router-dom"
+import React from "react";
+import { useHistory } from "react-router-dom";
 function Booking() {
-    let history = useHistory();
+  let history = useHistory();
 
-    try{
-
-        if (localStorage.getItem("type")==="user") history.push("/booking_user")
-        else{
-            history.push("/booking_theater")
-        }
-    }catch(err){
-        history.push("/login")
+  try {
+    if (localStorage.getItem("type") === "user") history.push("/booking_user");
+    else {
+      history.push("/booking_theater");
     }
-    return (
-        <div>
-            
-        </div>
-    )
+  } catch (err) {
+    history.push("/login");
+  }
+  return <div></div>;
 }
 
-export default Booking
+export default Booking;

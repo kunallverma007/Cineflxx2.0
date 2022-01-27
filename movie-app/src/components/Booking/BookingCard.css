@@ -9,6 +9,15 @@
 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-.container {
-padding: 2px 16px;
+.innerNew{
+  height: fit-content;
+  display: flex;
+  width: fit-content !important;
+  flex-direction: column;
+  justify-content: left;
+  
+  background: #c6d7eb;
+  box-sizing: border-box;
+  padding: 40px;
+  
 }

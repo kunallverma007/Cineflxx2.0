@@ -1,5 +1,5 @@
 .addBooking {
-    height: calc(100vh - 50px);
+    height: 100vh;
     display: flex;
     font-size: 18px;
     flex-direction: column;

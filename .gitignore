@@ -2,9 +2,12 @@
 
 # dependencies
 /node_modules
-/movie-app
+
+/.env
+movie-app/node_modules
 /.pnp
 .pnp.js
+
 
 # testing
 /coverage
