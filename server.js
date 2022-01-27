@@ -16,14 +16,14 @@ app.use(authRoutes);
 app.use(cors());
 
 // set up the server
-// if (process.env.NODE_ENV == "production"){
+if (process.env.NODE_ENV == "production"){
 
-//     app.use(express.static("movie-app/build"));
-// }
-// const path = require('path');
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'movie-app', 'build', 'index.html'));
-//   });
-app.listen(3001, () => {
+    app.use(express.static("movie-app/build"));
+}
+const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'movie-app', 'build', 'index.html'));
+  });
+app.listen(process.env.PORT||3001, () => {
   console.log("server running on 3001");
 });
