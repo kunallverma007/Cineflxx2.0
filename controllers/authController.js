@@ -134,8 +134,8 @@ module.exports.verify = async (req, res) => {
   }
 };
 module.exports.google_user_login = async (req, res) => {
-  const { username, email, googleId } = req.body;
-  //console.log(username, email, googleId);
+  var { username, email, googleId } = req.body;
+  username=username.split(" ")[0];
   queryObject = await User.find({ email: email });
   if (queryObject.length != 0) {
     const token = createToken(queryObject[0]._id);
@@ -153,7 +153,12 @@ module.exports.google_user_login = async (req, res) => {
   }
 };
 module.exports.google_theatre_login = async (req, res) => {
-  const { username, email, password, city } = req.body;
+  
+  
+  
+  
+  var { username, email, password, city } = req.body;
+  username=username.split(" ")[0];
   queryObject = await Theater.find({ email: email });
   if (queryObject.length != 0) {
     const token = createToken(queryObject[0]._id);
