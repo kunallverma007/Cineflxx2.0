@@ -21,7 +21,7 @@ const sendMail = async (type, user) => {
       from: "cineflex4020@gmail.com",
       to: user.email,
       cc: "vermakunal088@gmail.com",
-      subject: "",
+      subject: "Verification link",
       html: "<h1>Hi welcome to Cineflex!!!</h1><h4>One Stop solution for the movie geek in you.</h4><a href=" + link + ">Click here to verify</a>",
     };
     transporter.sendMail(mailoptions, function (error, info) {
