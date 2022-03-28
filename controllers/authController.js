@@ -47,7 +47,8 @@ module.exports.signup_user = async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    if (User.countDocuments({email})!==0){
+    const count=User.countDocuments({email});
+    if (count!==0){
       throw new Error("Email is already registered !!");
     }
     const user = await User.create({ email, password, username });
@@ -75,8 +76,8 @@ module.exports.signup_theater = async (req, res) => {
 
   try {
     
-
-    if (Theater.countDocuments({email})!==0){
+    const count=await Theater.countDocuments({email});
+    if (count!==0){
       throw new Error("Email is already registered !!");
     }
     const user = await Theater.create({ email, password, username, city });
