@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = async (type, user) => {
   try {
-    var link = "http://localhost:3001/verify/" + type + "/" + user._id;
+    var link = "https://cineflax.herokuapp.com/verify/" + type + "/" + user._id;
     var mailoptions = {
       from: "cineflex4020@gmail.com",
       to: user.email,
@@ -47,7 +47,7 @@ module.exports.signup_user = async (req, res) => {
   const { email, password, username } = req.body;
 
   try {
-    const count=User.countDocuments({email});
+    const count=await User.countDocuments({email});
     if (count!==0){
       throw new Error("Email is already registered !!");
     }
@@ -125,12 +125,12 @@ module.exports.verify = async (req, res) => {
     const user = await User.findById(req.params.id);
     user.verified = true;
     await User.findOneAndUpdate({ _id: req.params.id }, user);
-    return res.redirect("http://localhost:3000/login");
+    return res.redirect("https://cineflax.herokuapp.com/login");
   } else {
     const user = await Theater.findById(req.params.id);
     user.verified = true;
     await Theater.findOneAndUpdate({ _id: req.params.id }, user);
-    return res.redirect("http://localhost:3000/login");
+    return res.redirect("https://cineflax.herokuapp.com/login");
   }
 };
 module.exports.google_user_login = async (req, res) => {
