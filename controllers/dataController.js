@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 const sendMailOfPayment = async (user) => {
   try {
     var mailoptions = {
-      from: "aman18sharma99@gmail.com",
+      from: "cineflexx4020@gmail.com",
       to: user.email,
       cc: "vermakunal088@gmail.com",
       subject: "",
@@ -222,7 +222,7 @@ module.exports.pending_history = async (req, res) => {
     today = today.toISOString().slice(0, 10);
     const get = async (en) => {
       if (en.Date.toISOString().slice(0, 10) < today) {
-        await axios.post("http://localhost:3001/delete_booking", {
+        await axios.post("https://cineflax.herokuapp.com/delete_booking", {
           _id: en._id,
           movie_id: en.user,
           theater_id: en.theater,
@@ -295,7 +295,7 @@ module.exports.get_booking_data = async (req, res) => {
 
     const get = async (en) => {
       if (en.Date.toISOString().slice(0, 10) < today) {
-        await axios.post("http://localhost:3001/delete_booking", {
+        await axios.post("https://cineflax.herokuapp.com/delete_booking", {
           _id: en._id,
           movie_id: en.user,
           theater_id: en.theater,
@@ -355,7 +355,7 @@ module.exports.edit = async (req, res) => {
       }
       console.log(x);
       if (x) {
-        await axios.post("http://localhost:3001/delete_booking", {
+        await axios.post("https://cineflax.herokuapp.com/delete_booking", {
           _id: en,
           movie_id: booking.user,
           theater_id: _id,
