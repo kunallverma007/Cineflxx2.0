@@ -83,11 +83,11 @@ function Conc_theater() {
             />
           </LocalizationProvider>
         </div>
-        <div className="movie-list">
+        <div className="movie-list2">
           {theaters.map((en) => {
             var url = `/AddBooking/${en.theater._id}/${movie_id}/${en.movie.language}/${stDate}`;
             return (
-              <div className="listItem parent" style={{ padding: "10px" }}>
+              <div className="listItem2 parent" style={{ padding: "10px" }}>
                 <h1>
                   <a href={url}>{en.theater.username}</a>
                 </h1>
