@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const Movie = require("../schemas/Movie");
 const axios = require("axios");
 const dotenv = require("dotenv");
-//adds movie to theater
+dotenv.config();
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
