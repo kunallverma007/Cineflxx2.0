@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
 const dotenv = require("dotenv");
-//send verification email
+dotenv.config();
+console.log(process.env.EMAIL);
+console.log(process.env.EMAIL_PASS)
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -26,9 +28,9 @@ const sendMail = async (type, user) => {
     };
     transporter.sendMail(mailoptions, function (error, info) {
       if (error) {
-        //console.log(error);
+        console.log(error);
       } else {
-        //console.log("Email sent" + info.response);
+        console.log("Email sent" + info.response);
       }
     });
   } catch (err) {
@@ -45,9 +47,10 @@ const createToken = (id) => {
 };
 module.exports.signup_user = async (req, res) => {
   const { email, password, username } = req.body;
-
+  
   try {
-    const count=await User.countDocuments({email});
+    
+    const count = await User.countDocuments({ email})
     if (count!==0){
       throw new Error("Email is already registered !!");
     }
@@ -56,6 +59,7 @@ module.exports.signup_user = async (req, res) => {
     const token = createToken(user._id);
     res.status(201).send(token);
   } catch (err) {
+    console.log(err);
     res.status(400).send(err.message);
   }
 };
@@ -147,25 +151,20 @@ module.exports.google_user_login = async (req, res) => {
       const token = createToken(user._id);
       res.status(201).send(token);
     } catch (err) {
-      // const errors=handleErrors(err);
+      console.log(err);
       res.status(400).json({ err });
     }
   }
 };
 module.exports.google_theatre_login = async (req, res) => {
-  
-  
-  
-  
-  var { username, email, password, city } = req.body;
-  username=username.split(" ")[0];
+  const { username, email, password, city } = req.body;
   queryObject = await Theater.find({ email: email });
   if (queryObject.length != 0) {
     const token = createToken(queryObject[0]._id);
     res.status(201).send(token);
   } else {
     try {
-      //console.log(city);
+      
       const theatre = await Theater.create({ email, password, username, city });
       theatre.verified = true;
       const token = createToken(theatre._id);
